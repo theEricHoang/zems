@@ -37,7 +37,7 @@ public abstract class AbstractAddress
     }
     public void setState(String _state)
     {
-        state = _state
+        state = _state;
     }
 
     public int getZipCode()
