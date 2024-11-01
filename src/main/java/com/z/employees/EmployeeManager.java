@@ -20,8 +20,7 @@ public class EmployeeManager {
     public EmployeeManager() {
         employees = new ArrayList<>();
         employeeOperations = new EmployeeOperations();
-        raiseEmployee = new RaiseEmployee();
-        raiseManager = new RaiseManager();
+
     }
 
     /**
