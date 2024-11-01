@@ -14,8 +14,7 @@ import java.util.List;
 public class EmployeeManager {
     private List<Employee> employees;
     private EmployeeOperations employeeOperations;
-    private RaiseEmployee raiseEmployee;
-    private RaiseManager raiseManager;
+
 
 
     public EmployeeManager() {
@@ -66,11 +65,7 @@ public class EmployeeManager {
 
 
     public void giveRaiseToEmployee(int empID, double raisePercentage) {
-        Employee emp = employees.stream()
-                .filter(e -> e.getEmpID() == empID)
-                .findFirst()
-                .orElse(null);
-        raiseEmployee.applyRaise(emp, raisePercentage);
+      employeeOperations.giveRaiseToEmployee(employees, empID, raisePercentage);
     }
 
     /**
@@ -82,6 +77,6 @@ public class EmployeeManager {
      */
 
     public void giveRaiseToDepartment(String departmentName, double raisePercentage, double minSalary, double maxSalary) {
-        raiseManager.applyRaiseToDepartment(employees, departmentName, raisePercentage, minSalary, maxSalary);
+        employeeOperations.giveRaiseToDepartment(employees, departmentName, raisePercentage, minSalary, maxSalary);
     }
 }
