@@ -2,8 +2,6 @@
  * A class to handles Create, Read, Update and Delete (CRUD) operation.
  * It is going to use helper classes to perform these tasks.
  * EmployeeOperations to handle the adding, viewing, updating and deleting employees,
- * RaiseEmployee to handle giving an individual a raise by a set percentage amount
- * RaiseManager to grant a raise to all employees ina specific department based on their salary range.
  */
 
 package com.z.employees;
