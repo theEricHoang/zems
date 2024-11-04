@@ -1,4 +1,4 @@
-package com.z.employees;
+package com.z.model;
 
 public class Employee implements IEmployee
 {
@@ -12,15 +12,15 @@ public class Employee implements IEmployee
                     String _department, String _jobTitle, double _salary,
                     Address _address, Payroll _payroll)
     {
-        empID = _empID;
-        departmentID = _departmentID;
-        name = _name;
-        ssn = _ssn;
-        department = _department;
-        jobTitle = _jobTitle;
-        salary = _salary;
-        address = _address;
-        payroll = _payroll;
+        setEmpID(_empID);
+        setDepartmentID(_departmentID);
+        setName(_name);
+        setSSN(_ssn);
+        setDepartment(_department);
+        setJobTitle(_jobTitle);
+        setSalary(_salary);
+        setAddress(_address);
+        setPayroll(_payroll);
     }
 
     public int getEmpID()

@@ -1,4 +1,4 @@
-package com.z.employees;
+package com.z.model;
 
 public class Address extends AbstractAddress
 {

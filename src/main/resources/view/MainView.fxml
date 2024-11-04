@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import com.z.controller.MainController?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.z.controller.MainController">
+    <TextField fx:id="nameField" promptText="Name"/>
+    <TextField fx:id="positionField" promptText="Position"/>
+    <TextField fx:id="salaryField" promptText="Salary"/>
+    <Button text="Add Employee" onAction="#addEmployee"/>
+    <ListView fx:id="employeeListView"/>
+</VBox>

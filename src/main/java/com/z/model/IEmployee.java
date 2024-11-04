@@ -1,4 +1,4 @@
-package com.z.employees;
+package com.z.model;
 
 public interface IEmployee {
     public int getEmpID();

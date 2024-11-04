@@ -4,10 +4,11 @@
  * EmployeeOperations to handle the adding, viewing, updating and deleting employees,
  */
 
-package com.z.employees;
+package com.z.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.z.model.Employee;
 // The List to store the employees and the helper classes
 public class EmployeeManager {
     private List<Employee> employees;

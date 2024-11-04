@@ -36,6 +36,9 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <excludes>
+                        <exclude>**/service/EmployeeManager.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

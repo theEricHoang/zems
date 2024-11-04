@@ -1,4 +1,4 @@
-package com.z.employees;
+package com.z.model;
 
 public abstract class AbstractAddress 
 {
@@ -7,10 +7,10 @@ public abstract class AbstractAddress
 
     public AbstractAddress(String _street, String _city, String _state, int _zipCode)
     {
-        street = _street;
-        city = _city;
-        state = _state;
-        zipCode = _zipCode;
+        setStreet(_street);
+        setCity(_city);
+        setState(_state);
+        setZipCode(_zipCode);
     }
 
     public String getStreet()
