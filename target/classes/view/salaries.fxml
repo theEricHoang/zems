@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.SalariesController">
+   <children>
+      <Label layoutX="212.0" layoutY="7.0" text="Employee Salaries">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <TextField layoutX="29.0" layoutY="55.0" prefHeight="26.0" prefWidth="163.0" promptText="Search Employee Salary" />
+      <Button layoutX="203.0" layoutY="53.0" mnemonicParsing="false" text="Search" />
+      <TableView layoutX="23.0" layoutY="98.0" prefHeight="205.0" prefWidth="558.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Button fx:id="employeesButton" layoutX="469.0" layoutY="347.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="117.0" text="View Employees" />
+      <Button fx:id="menuButton" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="117.0" text="Back to Menu" />
+      <Button layoutX="23.0" layoutY="316.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Update" />
+   </children>
+</AnchorPane>
