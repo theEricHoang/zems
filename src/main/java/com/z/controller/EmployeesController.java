@@ -9,20 +9,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class MainController {
+public class EmployeesController {
     @FXML
-    private Button employeesButton;
+    private Button menuButton;
 
     @FXML
     private Button salariesButton;
 
     @FXML
-    private void switchToEmployees()
+    private void switchToMenu()
     {
         try {
-            Parent employeesView = FXMLLoader.load(getClass().getResource("/view/employees.fxml"));
-            Scene scene = new Scene(employeesView);
-            Stage stage = (Stage) employeesButton.getScene().getWindow();
+            Parent menuView = FXMLLoader.load(getClass().getResource("/view/main_view.fxml"));
+            Scene scene = new Scene(menuView);
+            Stage stage = (Stage) menuButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class MainController {
         try {
             Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
             Scene scene = new Scene(salariesView);
-            Stage stage = (Stage) employeesButton.getScene().getWindow();
+            Stage stage = (Stage) salariesButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

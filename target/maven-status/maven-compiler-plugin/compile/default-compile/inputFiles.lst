@@ -1,8 +1,10 @@
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/controller/MainController.java
+/Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/controller/EmployeesController.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/module-info.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/model/Payroll.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/model/Address.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/model/IPayroll.java
+/Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/controller/SalariesController.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/App.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/model/AbstractAddress.java
 /Users/erichoang/Desktop/Softdev labs/zems/src/main/java/com/z/model/IEmployee.java

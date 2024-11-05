@@ -14,7 +14,7 @@ public class App extends Application
     public void start(Stage stage) throws Exception
     {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/MainView.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/main_view.fxml"));
             stage.setTitle("Z Employee Management System");
             stage.setScene(new Scene(root));
             stage.show();
