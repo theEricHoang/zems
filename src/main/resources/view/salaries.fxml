@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.SalariesController">
    <children>
       <Label layoutX="212.0" layoutY="7.0" text="Employee Salaries">
@@ -24,8 +23,8 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="employeesButton" layoutX="469.0" layoutY="347.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="117.0" text="View Employees" />
-      <Button fx:id="menuButton" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="117.0" text="Back to Menu" />
+      <Button fx:id="employeesButton" layoutX="469.0" layoutY="347.0" mnemonicParsing="false" onAction="#switchToEmployees" prefHeight="31.0" prefWidth="117.0" text="View Employees" />
+      <Button fx:id="menuButton" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="31.0" prefWidth="117.0" text="Back to Menu" />
       <Button layoutX="23.0" layoutY="316.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Update" />
    </children>
 </AnchorPane>
