@@ -25,6 +25,6 @@
       </TableView>
       <Button fx:id="employeesButton" layoutX="469.0" layoutY="347.0" mnemonicParsing="false" onAction="#switchToEmployees" prefHeight="31.0" prefWidth="117.0" text="View Employees" />
       <Button fx:id="menuButton" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="31.0" prefWidth="117.0" text="Back to Menu" />
-      <Button layoutX="23.0" layoutY="316.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Update" />
+      <Button fx:id="updateSalariesButton" layoutX="23.0" layoutY="316.0" mnemonicParsing="false" onAction="#switchToUpdateSalaries" prefHeight="31.0" prefWidth="82.0" text="Update" />
    </children>
 </AnchorPane>

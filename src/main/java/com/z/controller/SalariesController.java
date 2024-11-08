@@ -17,6 +17,24 @@ public class SalariesController {
     private Button employeesButton;
 
     @FXML
+    private Button updateSalariesButton;
+
+    @FXML
+    private void switchToUpdateSalaries()
+    {
+        try {
+            Parent updateSalariesView = FXMLLoader.load(getClass().getResource("/view/update_salaries.fxml"));
+            Stage updateSalariesStage = new Stage();
+            updateSalariesStage.setTitle("Update Salaries");
+            Scene scene = new Scene(updateSalariesView);
+            updateSalariesStage.setScene(scene);
+            updateSalariesStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void switchToMenu()
     {
         try {

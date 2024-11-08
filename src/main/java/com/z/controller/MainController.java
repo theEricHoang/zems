@@ -35,7 +35,7 @@ public class MainController {
         try {
             Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
             Scene scene = new Scene(salariesView);
-            Stage stage = (Stage) employeesButton.getScene().getWindow();
+            Stage stage = (Stage) salariesButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
