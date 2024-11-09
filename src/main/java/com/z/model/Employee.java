@@ -9,98 +9,50 @@ public class Employee implements IEmployee
     private static int idCounter = 0;
 
     private int empID, departmentID;
-    private String name, ssn, department, jobTitle;
+    private String name, ssn, division, jobTitle, email, hireDate;
     private double salary;
-    private Address address;
 
-    public Employee(int _departmentID, String _name, String _ssn,
-                    String _department, String _jobTitle, double _salary,
-                    Address _address)
+    public Employee(int _divisionID, String _name, String _email, String _ssn,
+                    String _hireDate, String _division, String _jobTitle, double _salary)
     {
-        setEmpID();
-        setDepartmentID(_departmentID);
+        initEmpID();
+        setDepartmentID(_divisionID);
         setName(_name);
+        setEmail(_email);
         setSSN(_ssn);
-        setDepartment(_department);
+        setHireDate(_hireDate);
+        setDivision(_division);
         setJobTitle(_jobTitle);
         setSalary(_salary);
-        setAddress(_address);
     }
 
-    public static void setInitialIDCounter(int _initialID)
-    {
-        idCounter = _initialID;
-    }
+    public static void setInitialIDCounter(int _initialID) { idCounter = _initialID; }
 
-    public int getEmpID()
-    {
-        return empID;
-    }
-    public void setEmpID()
-    {
-        empID = ++idCounter;
-    }
+    public int getEmpID() { return empID; }
+    public void setEmpID(int _empID) { empID = _empID; }
+    public void initEmpID() { empID = ++idCounter; }
     
-    public int getDepartmentID()
-    {
-        return departmentID;
-    }
-    public void setDepartmentID(int _departmentID)
-    {
-        departmentID = _departmentID;
-    }
+    public int getDepartmentID() { return departmentID; }
+    public void setDepartmentID(int _departmentID) { departmentID = _departmentID; }
 
-    public String getName()
-    {
-        return name;
-    }
-    public void setName(String _name)
-    {
-        name = _name;
-    }
-    
-    public String getSSN()
-    {
-        return ssn;
-    }
-    public void setSSN(String _ssn)
-    {
-        ssn = _ssn;
-    }
+    public String getName() { return name; }
+    public void setName(String _name) { name = _name; }
 
-    public String getDepartment()
-    {
-        return department;
-    }
-    public void setDepartment(String _department)
-    {
-        department = _department;
-    }
+    public String getSSN() { return ssn; }
+    public void setSSN(String _ssn) { ssn = _ssn; }
 
-    public String getJobTitle()
-    {
-        return jobTitle;
-    }
-    public void setJobTitle(String _jobTitle)
-    {
-        jobTitle = _jobTitle;
-    }
+    public String getDivision() { return division; }
+    public void setDivision(String _division) { division = _division; }
 
-    public double getSalary()
-    {
-        return salary;
-    }
-    public void setSalary(double _salary)
-    {
-        salary = _salary;
-    }
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String _jobTitle) { jobTitle = _jobTitle; }
 
-    public Address getAddress()
-    {
-        return address;
-    }
-    public void setAddress(Address _address)
-    {
-        address = _address;
-    }
+    public double getSalary() { return salary; }
+    public void setSalary(double _salary) { salary = _salary; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String _email) { email = _email; }
+
+    public String getHireDate() { return hireDate; }
+    public void setHireDate(String _hireDate) { hireDate = _hireDate; }
 }

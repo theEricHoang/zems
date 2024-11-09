@@ -1,13 +1,13 @@
 package com.z.controller;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainController {
     @FXML
@@ -16,8 +16,7 @@ public class MainController {
     private Button salariesButton;
 
     @FXML
-    private void switchToEmployees()
-    {
+    private void switchToEmployees() {
         try {
             Parent employeesView = FXMLLoader.load(getClass().getResource("/view/employees.fxml"));
             Scene scene = new Scene(employeesView);
@@ -29,8 +28,7 @@ public class MainController {
     }
 
     @FXML
-    private void switchToSalaries()
-    {
+    private void switchToSalaries() {
         try {
             Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
             Scene scene = new Scene(salariesView);

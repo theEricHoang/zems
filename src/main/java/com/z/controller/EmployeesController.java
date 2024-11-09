@@ -1,8 +1,7 @@
 package com.z.controller;
 
-import java.io.IOException;
-
 import com.z.model.Employee;
+import com.z.model.dao.EmployeeDAO;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +9,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 public class EmployeesController {
+    @FXML
+    private ListView<String> employeeListView;
+    private EmployeeDAO employeeDAO = new EmployeeDAO();
     /*
      * COMPONENT DECLARATIONS
      * separate lines because that's how java annotations work :(
@@ -72,13 +78,18 @@ public class EmployeesController {
             return;
         }
 
-        // TODO: parse address info and add employee
+        // TODO: parse address info, create new Employee object, pass to EmployeeDAO to insert into database
         // Employee newEmployee = new Employee();
     }
 
+    // METHOD IS CURRENTLY QUARANTINED. loadEmployeeData() throws an error since employee array is empty.
+    // @FXML
+    // public void initialize() {
+    //     loadEmployeeData();
+    // }
+
     @FXML
-    private void switchToMenu()
-    {
+    private void switchToMenu() {
         try {
             Parent menuView = FXMLLoader.load(getClass().getResource("/view/main_view.fxml"));
             Scene scene = new Scene(menuView);
@@ -98,6 +109,18 @@ public class EmployeesController {
             Stage stage = (Stage) salariesButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadEmployeeData() {
+        try {
+            employeeListView.getItems().clear();
+            for (Employee employee : employeeDAO.getAllEmployees()) {
+                String employeeInfo = employee.getName() + " - " + employee.getDivision();
+                employeeListView.getItems().add(employeeInfo);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
