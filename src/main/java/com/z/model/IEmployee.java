@@ -2,7 +2,7 @@ package com.z.model;
 
 public interface IEmployee {
     public int getEmpID();
-    public void setEmpID(int _empID);
+    public void setEmpID();
     
     public int getDepartmentID();
     public void setDepartmentID(int _departmentID);
@@ -24,7 +24,4 @@ public interface IEmployee {
 
     public Address getAddress();
     public void setAddress(Address _address);
-
-    public Payroll getPayroll();
-    public void setPayroll(Payroll _payroll);
 }

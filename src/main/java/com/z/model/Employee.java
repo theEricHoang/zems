@@ -2,17 +2,22 @@ package com.z.model;
 
 public class Employee implements IEmployee
 {
+    // For incrementing IDs with each new employee.
+    // Will be updated from database, so each session
+    // should retrieve current highest ID and set
+    // idCounter accordingly.
+    private static int idCounter = 0;
+
     private int empID, departmentID;
     private String name, ssn, department, jobTitle;
     private double salary;
     private Address address;
-    private Payroll payroll;
 
-    public Employee(int _empID, int _departmentID, String _name, String _ssn,
+    public Employee(int _departmentID, String _name, String _ssn,
                     String _department, String _jobTitle, double _salary,
-                    Address _address, Payroll _payroll)
+                    Address _address)
     {
-        setEmpID(_empID);
+        setEmpID();
         setDepartmentID(_departmentID);
         setName(_name);
         setSSN(_ssn);
@@ -20,16 +25,20 @@ public class Employee implements IEmployee
         setJobTitle(_jobTitle);
         setSalary(_salary);
         setAddress(_address);
-        setPayroll(_payroll);
+    }
+
+    public static void setInitialIDCounter(int _initialID)
+    {
+        idCounter = _initialID;
     }
 
     public int getEmpID()
     {
         return empID;
     }
-    public void setEmpID(int _empID)
+    public void setEmpID()
     {
-        empID = _empID;
+        empID = ++idCounter;
     }
     
     public int getDepartmentID()
@@ -93,14 +102,5 @@ public class Employee implements IEmployee
     public void setAddress(Address _address)
     {
         address = _address;
-    }
-
-    public Payroll getPayroll()
-    {
-        return payroll;
-    }
-    public void setPayroll(Payroll _payroll)
-    {
-        payroll = _payroll;
     }
 }
