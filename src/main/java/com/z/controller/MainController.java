@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 public class MainController {
     @FXML
     private Button employeesButton;
-
     @FXML
     private Button salariesButton;
 
