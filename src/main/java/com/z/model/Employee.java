@@ -1,106 +1,50 @@
 package com.z.model;
 
-public class Employee implements IEmployee
-{
+public class Employee implements IEmployee {
     private int empID, departmentID;
     private String name, ssn, department, jobTitle;
     private double salary;
     private Address address;
     private Payroll payroll;
 
-    public Employee(int _empID, int _departmentID, String _name, String _ssn,
-                    String _department, String _jobTitle, double _salary,
-                    Address _address, Payroll _payroll)
-    {
-        setEmpID(_empID);
-        setDepartmentID(_departmentID);
-        setName(_name);
-        setSSN(_ssn);
-        setDepartment(_department);
-        setJobTitle(_jobTitle);
-        setSalary(_salary);
-        setAddress(_address);
-        setPayroll(_payroll);
+    public Employee(int empID, int departmentID, String name, String ssn, String department,
+                    String jobTitle, double salary, Address address, Payroll payroll) {
+        this.empID = empID;
+        this.departmentID = departmentID;
+        this.name = name;
+        this.ssn = ssn;
+        this.department = department;
+        this.jobTitle = jobTitle;
+        this.salary = salary;
+        this.address = address;
+        this.payroll = payroll;
     }
 
-    public int getEmpID()
-    {
-        return empID;
-    }
-    public void setEmpID(int _empID)
-    {
-        empID = _empID;
-    }
-    
-    public int getDepartmentID()
-    {
-        return departmentID;
-    }
-    public void setDepartmentID(int _departmentID)
-    {
-        departmentID = _departmentID;
-    }
+    // Getters and setters
+    public int getEmpID() { return empID; }
+    public void setEmpID(int empID) { this.empID = empID; }
 
-    public String getName()
-    {
-        return name;
-    }
-    public void setName(String _name)
-    {
-        name = _name;
-    }
-    
-    public String getSSN()
-    {
-        return ssn;
-    }
-    public void setSSN(String _ssn)
-    {
-        ssn = _ssn;
-    }
+    public int getDepartmentID() { return departmentID; }
+    public void setDepartmentID(int departmentID) { this.departmentID = departmentID; }
 
-    public String getDepartment()
-    {
-        return department;
-    }
-    public void setDepartment(String _department)
-    {
-        department = _department;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getJobTitle()
-    {
-        return jobTitle;
-    }
-    public void setJobTitle(String _jobTitle)
-    {
-        jobTitle = _jobTitle;
-    }
+    public String getSSN() { return ssn; }
+    public void setSSN(String ssn) { this.ssn = ssn; }
 
-    public double getSalary()
-    {
-        return salary;
-    }
-    public void setSalary(double _salary)
-    {
-        salary = _salary;
-    }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
 
-    public Address getAddress()
-    {
-        return address;
-    }
-    public void setAddress(Address _address)
-    {
-        address = _address;
-    }
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
 
-    public Payroll getPayroll()
-    {
-        return payroll;
-    }
-    public void setPayroll(Payroll _payroll)
-    {
-        payroll = _payroll;
-    }
+    public double getSalary() { return salary; }
+    public void setSalary(double salary) { this.salary = salary; }
+
+    public Address getAddress() { return address; }
+    public void setAddress(Address address) { this.address = address; }
+
+    public Payroll getPayroll() { return payroll; }
+    public void setPayroll(Payroll payroll) { this.payroll = payroll; }
 }

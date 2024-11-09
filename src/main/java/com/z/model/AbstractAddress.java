@@ -1,51 +1,25 @@
 package com.z.model;
 
-public abstract class AbstractAddress 
-{
-    public String street, city, state;
-    public int zipCode; 
+public abstract class AbstractAddress {
+    private String street, city, state;
+    private int zipCode;
 
-    public AbstractAddress(String _street, String _city, String _state, int _zipCode)
-    {
-        setStreet(_street);
-        setCity(_city);
-        setState(_state);
-        setZipCode(_zipCode);
+    public AbstractAddress(String street, String city, String state, int zipCode) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
     }
 
-    public String getStreet()
-    {
-        return street;
-    }
-    public void setStreet(String _street)
-    {
-        street = _street;
-    }
+    public String getStreet() { return street; }
+    public void setStreet(String street) { this.street = street; }
 
-    public String getCity()
-    {
-        return city;
-    }
-    public void setCity(String _city)
-    {
-        city = _city;
-    }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
 
-    public String getState()
-    {
-        return state;
-    }
-    public void setState(String _state)
-    {
-        state = _state;
-    }
+    public String getState() { return state; }
+    public void setState(String state) { this.state = state; }
 
-    public int getZipCode()
-    {
-        return zipCode;
-    }
-    public void setZipCode(int _zipCode)
-    {
-        zipCode = _zipCode;
-    }
+    public int getZipCode() { return zipCode; }
+    public void setZipCode(int zipCode) { this.zipCode = zipCode; }
 }
