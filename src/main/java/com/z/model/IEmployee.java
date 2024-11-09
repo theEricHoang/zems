@@ -1,30 +1,31 @@
 package com.z.model;
 
 public interface IEmployee {
-    int getEmpID();
-    void setEmpID(int empID);
+    public int getEmpID();
+    public void setEmpID(int _empID);
+    public void initEmpID();
+    
+    public int getDepartmentID();
+    public void setDepartmentID(int _departmentID);
 
-    int getDepartmentID();
-    void setDepartmentID(int departmentID);
+    public String getName();
+    public void setName(String _name);
 
-    String getName();
-    void setName(String name);
+    public String getSSN();
+    public void setSSN(String _ssn);
 
-    String getSSN();
-    void setSSN(String ssn);
+    public String getDivision();
+    public void setDivision(String _division);
 
-    String getDepartment();
-    void setDepartment(String department);
+    public String getJobTitle();
+    public void setJobTitle(String _jobTitle);
 
-    String getJobTitle();
-    void setJobTitle(String jobTitle);
+    public double getSalary();
+    public void setSalary(double _salary);
 
-    double getSalary();
-    void setSalary(double salary);
+    public String getEmail();
+    public void setEmail(String _email);
 
-    Address getAddress();
-    void setAddress(Address address);
-
-    Payroll getPayroll();
-    void setPayroll(Payroll payroll);
+    public String getHireDate();
+    public void setHireDate(String _hireDate);
 }

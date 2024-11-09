@@ -1,7 +1,10 @@
 module com.z {
     requires javafx.controls;
+    requires transitive javafx.graphics;
     requires javafx.fxml;
     requires java.sql;  
+
+    requires io.github.cdimascio.dotenv.java;
 
     opens com.z to javafx.fxml;
     exports com.z;
