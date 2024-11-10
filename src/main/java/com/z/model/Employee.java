@@ -8,16 +8,17 @@ public class Employee implements IEmployee
     // idCounter accordingly.
     private static int idCounter = 0;
 
-    private int empID, departmentID;
-    private String name, ssn, division, jobTitle, email, hireDate;
+    private int empID, divID;
+    private String fName, lName, ssn, division, jobTitle, email, hireDate;
     private double salary;
 
-    public Employee(int _divisionID, String _name, String _email, String _ssn,
+    public Employee(boolean _newEmployee, int _divisionID, String _fName, String _lName, String _email, String _ssn,
                     String _hireDate, String _division, String _jobTitle, double _salary)
     {
-        initEmpID();
-        setDepartmentID(_divisionID);
-        setName(_name);
+        if (_newEmployee) { initEmpID(); }
+        setDivID(_divisionID);
+        setFName(_fName);
+        setLName(_lName);
         setEmail(_email);
         setSSN(_ssn);
         setHireDate(_hireDate);
@@ -32,11 +33,14 @@ public class Employee implements IEmployee
     public void setEmpID(int _empID) { empID = _empID; }
     public void initEmpID() { empID = ++idCounter; }
     
-    public int getDepartmentID() { return departmentID; }
-    public void setDepartmentID(int _departmentID) { departmentID = _departmentID; }
+    public int getDivID() { return divID; }
+    public void setDivID(int _departmentID) { divID = _departmentID; }
 
-    public String getName() { return name; }
-    public void setName(String _name) { name = _name; }
+    public String getFName() { return fName; }
+    public void setFName(String _fName) { fName = _fName; }
+
+    public String getLName() { return lName; }
+    public void setLName(String _lName) { lName = _lName; }
 
     public String getSSN() { return ssn; }
     public void setSSN(String _ssn) { ssn = _ssn; }

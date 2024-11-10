@@ -1,92 +1,81 @@
 package com.z.controller;
 
+import com.z.App;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class EmployeesController {
-    @FXML
-    private ListView<String> employeeListView;
-    private EmployeeDAO employeeDAO = new EmployeeDAO();
     /*
      * COMPONENT DECLARATIONS
      * separate lines because that's how java annotations work :(
      */
-    @FXML
-    private Button menuButton;
-    @FXML
-    private Button salariesButton;
-    @FXML
-    private Button addEmployeeButton;
+    @FXML private Button menuButton;
+    @FXML private Button salariesButton;
+    @FXML private Button addEmployeeButton;
 
-    @FXML
-    private TextField fNameField;
-    @FXML
-    private TextField lNameField;
-    @FXML
-    private TextField titleField;
-    @FXML
-    private TextField deptIDField;
-    @FXML
-    private TextField SSNField;
-    @FXML
-    private TextField salaryField;
-    @FXML
-    private TextField payrollField;
-    @FXML
-    private TextField departmentField;
-    @FXML
-    private TextField addressField;
+    /*
+     * TableView and Columns
+     */
+    @FXML private TableView<Employee> employeeTable;
+    @FXML private TableColumn<Employee, Integer> employeeIDs;
+    @FXML private TableColumn<Employee, String> employeeFNames;
+    @FXML private TableColumn<Employee, String> employeeLNames;
+    @FXML private TableColumn<Employee, Integer> employeeDivIDs;
+    @FXML private TableColumn<Employee, String> employeeDivisions;
+    @FXML private TableColumn<Employee, String> employeeJobTitles;
+    @FXML private TableColumn<Employee, String> employeeEmails;
+    @FXML private TableColumn<Employee, String> employeeSSNs;
+    @FXML private TableColumn<Employee, String> employeeHireDates;
+    @FXML private TableColumn<Employee, Double> employeeSalaries;
+    private ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 
     @FXML
     private void handleAddEmployee()
     {
-        String _fName = fNameField.getText();
-        String _lName = lNameField.getText();
-        String _fullName = _fName + " " + _lName;
-        String _title = titleField.getText();
-        String _deptID = deptIDField.getText();
-        String _ssn = SSNField.getText();
-        String _salary = salaryField.getText();
-        String _department = departmentField.getText();
-        String _address = addressField.getText();
-
-        // _fName and _lName must be checked separately bc _fullName can be non-empty even when only one field is filled
-        if (_fName.isEmpty() ||
-            _lName.isEmpty() ||
-            _title.isEmpty() ||
-            _deptID.isEmpty() ||
-            _ssn.isEmpty() ||
-            _salary.isEmpty() ||
-            _department.isEmpty() ||
-            _address.isEmpty())
-        {
-            showAlert("One or more fields is empty!");
-            return;
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/add_employee.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Add New Employee");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(App.getPrimaryStage());
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // TODO: parse address info, create new Employee object, pass to EmployeeDAO to insert into database
-        // Employee newEmployee = new Employee();
     }
 
-    // METHOD IS CURRENTLY QUARANTINED. loadEmployeeData() throws an error since employee array is empty.
-    // @FXML
-    // public void initialize() {
-    //     loadEmployeeData();
-    // }
+    @FXML
+    public void initialize() {
+        employeeIDs.setCellValueFactory(new PropertyValueFactory<>("empID"));
+        employeeFNames.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        employeeLNames.setCellValueFactory(new PropertyValueFactory<>("lName"));
+        employeeDivIDs.setCellValueFactory(new PropertyValueFactory<>("divID"));
+        employeeDivisions.setCellValueFactory(new PropertyValueFactory<>("division"));
+        employeeJobTitles.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
+        employeeEmails.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeeSSNs.setCellValueFactory(new PropertyValueFactory<>("SSN"));
+        employeeHireDates.setCellValueFactory(new PropertyValueFactory<>("hireDate"));
+        employeeSalaries.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        loadEmployeeData();
+    }
 
     @FXML
     private void switchToMenu() {
@@ -114,23 +103,15 @@ public class EmployeesController {
     }
 
     private void loadEmployeeData() {
+        // Currently throws exception since SSN
+
+        employeeData.clear();
+
         try {
-            employeeListView.getItems().clear();
-            for (Employee employee : employeeDAO.getAllEmployees()) {
-                String employeeInfo = employee.getName() + " - " + employee.getDivision();
-                employeeListView.getItems().add(employeeInfo);
-            }
+            employeeData = EmployeeDAO.getAllEmployees();
+            employeeTable.setItems(employeeData);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void showAlert(String message)
-    {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Error!");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

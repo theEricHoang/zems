@@ -8,10 +8,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.EmployeesController">
@@ -28,122 +26,40 @@
       </VBox>
    </left>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="employeeTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="employeeIDs" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="employeeFNames" prefWidth="75.0" text="First Name" />
+            <TableColumn fx:id="employeeLNames" prefWidth="75.0" text="Last Name" />
+            <TableColumn fx:id="employeeDivIDs" prefWidth="75.0" text="Division ID" />
+            <TableColumn fx:id="employeeDivisions" prefWidth="75.0" text="Division" />
+            <TableColumn fx:id="employeeJobTitles" prefWidth="75.0" text="Job Title" />
+            <TableColumn fx:id="employeeEmails" prefWidth="75.0" text="Email" />
+            <TableColumn fx:id="employeeSSNs" prefWidth="75.0" text="SSN" />
+            <TableColumn fx:id="employeeHireDates" prefWidth="75.0" text="Hire Date" />
+            <TableColumn fx:id="employeeSalaries" prefWidth="75.0" text="Salary" />
         </columns>
       </TableView>
    </center>
-   <bottom>
-      <GridPane alignment="CENTER_RIGHT" prefWidth="836.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="237.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="203.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="225.0" minWidth="10.0" prefWidth="202.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
-               <children>
-                  <Label text="First Name:" />
-                  <TextField fx:id="fNameField" prefHeight="25.0" prefWidth="157.0" />
-               </children>
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="Dept. ID:" />
-                  <TextField fx:id="deptIDField" prefHeight="25.0" prefWidth="147.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="273.0" spacing="2.0" GridPane.columnIndex="2">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="Department:" />
-                  <TextField fx:id="departmentField" prefHeight="25.0" prefWidth="124.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.rowIndex="1">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="Last Name:" />
-                  <TextField fx:id="lNameField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="SSN:" />
-                  <TextField fx:id="SSNField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label contentDisplay="CENTER" text="Address:" />
-                  <TextField fx:id="addressField" prefHeight="25.0" prefWidth="142.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.rowIndex="2">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="Title:" />
-                  <TextField fx:id="titleField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Label text="Salary:" />
-                  <TextField fx:id="salaryField" prefHeight="25.0" prefWidth="156.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-               <children>
-                  <Button fx:id="addEmployeeButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleAddEmployee" text="Add Employee" />
-               </children>
-            </HBox>
-         </children>
-      </GridPane>
-   </bottom>
    <top>
-      <HBox prefHeight="52.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="TOP_LEFT">
+      <HBox alignment="CENTER" prefHeight="52.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <TextField prefHeight="25.0" prefWidth="312.0" promptText="Search..." translateX="20.0" translateY="15.0" />
-            <ChoiceBox prefHeight="25.0" prefWidth="137.0" translateX="20.0" translateY="15.0" />
-            <Button mnemonicParsing="false" text="Search Employee" translateX="20.0" translateY="15.0" />
+            <TextField prefHeight="25.0" prefWidth="312.0" promptText="Search..." />
+            <ChoiceBox prefHeight="25.0" prefWidth="137.0" />
+            <Button minWidth="-Infinity" mnemonicParsing="false" text="Search Employee" />
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="addEmployeeButton" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddEmployee" text="Add Employee">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
+         <padding>
+            <Insets left="15.0" right="15.0" />
+         </padding>
       </HBox>
    </top>
 </BorderPane>

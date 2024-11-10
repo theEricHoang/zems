@@ -11,4 +11,7 @@ module com.z {
 
     opens com.z.controller to javafx.fxml;
     exports com.z.controller;
+
+    opens com.z.model to javafx.fxml;
+    exports com.z.model;
 }

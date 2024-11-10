@@ -1,21 +1,27 @@
 package com.z.model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import com.z.model.Employee;
 import com.z.service.DatabaseService;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 
 public class EmployeeDAO {
 
-    public List<Employee> getAllEmployees() throws SQLException {
-        List<Employee> employees = new ArrayList<>();
+    public static ObservableList<Employee> getAllEmployees() throws SQLException {
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
         String query = "SELECT * FROM employees e " + 
                         "LEFT JOIN employee_job_titles ejt ON e.empid = ejt.empid " + 
-                        "INNER JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id " +
+                        "LEFT JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id " +
                         "LEFT JOIN employee_division ed ON e.empid = ed.empid " +
-                        "INNER JOIN division d ON ed.div_ID = d.ID;";
+                        "LEFT JOIN division d ON ed.div_ID = d.ID;";
 
         try (Connection conn = DatabaseService.getConnection();
             Statement stmt = conn.createStatement();
@@ -28,13 +34,12 @@ public class EmployeeDAO {
                 int _empID = rs.getInt("empid");
                 String _fName = rs.getString("Fname");
                 String _lName = rs.getString("Lname");
-                String _fullName = _fName + " " + _lName;
                 String _email = rs.getString("email");
                 String _hireDate = rs.getString("HireDate");
                 double _salary = rs.getDouble("Salary");
                 String _ssn = rs.getString("SSN");
 
-                Employee employee = new Employee(_divID, _fullName, _email, _ssn, _hireDate, _division, _jobTitle, _salary);
+                Employee employee = new Employee(false, _divID, _fName, _lName, _email, _ssn, _hireDate, _division, _jobTitle, _salary);
                 employee.setEmpID(_empID);
                 employees.add(employee);
             }
@@ -44,18 +49,16 @@ public class EmployeeDAO {
         return employees;
     }
 
-    public void addEmployee(Employee employee) throws SQLException {
-        String query = "INSERT INTO employees (empid, Fname, Lname, email, HireDate, Salary, SSN) VALUES (?, ?, ?, ?, ?, ?)";
+    public static void addEmployee(Employee employee) throws SQLException {
+        String query = "INSERT INTO employees (empid, Fname, Lname, email, HireDate, Salary, SSN) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseService.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            String[] nameStrings = employee.getName().split(" ");
-
             stmt.setInt(1, employee.getEmpID());
-            stmt.setString(2, nameStrings[0]);
-            stmt.setString(3, nameStrings[1]);
+            stmt.setString(2, employee.getFName());
+            stmt.setString(3, employee.getLName());
             stmt.setString(4, employee.getEmail());
-            stmt.setString(5, employee.getHireDate());
+            stmt.setDate(5, java.sql.Date.valueOf(employee.getHireDate()));
             stmt.setDouble(6, employee.getSalary());
             stmt.setString(7, employee.getSSN());
             stmt.executeUpdate();
@@ -64,7 +67,7 @@ public class EmployeeDAO {
         }
     }
 
-    public void deleteEmployee(int empID) throws SQLException {
+    public static void deleteEmployee(int empID) throws SQLException {
         String query = "DELETE FROM employees WHERE empid = ?";
 
         try (Connection conn = DatabaseService.getConnection();

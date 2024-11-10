@@ -5,11 +5,14 @@ public interface IEmployee {
     public void setEmpID(int _empID);
     public void initEmpID();
     
-    public int getDepartmentID();
-    public void setDepartmentID(int _departmentID);
+    public int getDivID();
+    public void setDivID(int _divID);
 
-    public String getName();
-    public void setName(String _name);
+    public String getFName();
+    public void setFName(String _fName);
+
+    public String getLName();
+    public void setLName(String _lName);
 
     public String getSSN();
     public void setSSN(String _ssn);

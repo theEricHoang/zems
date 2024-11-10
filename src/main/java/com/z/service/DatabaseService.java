@@ -2,6 +2,7 @@ package com.z.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,12 +18,12 @@ public class DatabaseService {
         String dbUsername = dotenv.get("DB_USERNAME");
         String dbPassword = dotenv.get("DB_PASSWORD");
 
-        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword)) {
-            return connection;
+        try {
+            return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public static int fetchHighestEmployeeID(Connection connection)
@@ -38,5 +39,23 @@ public class DatabaseService {
             e.printStackTrace();
         }
         return highestID;
+    }
+
+    public static int fetchDivisionID(String division)
+    {
+        int divID = 0;
+        String query = "SELECT ID FROM division WHERE Name = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, division);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                divID = rs.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return divID;
     }
 }
