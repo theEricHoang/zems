@@ -124,5 +124,30 @@
          // Set the table's items to the ObservableList, which updates the table display
          employeeTable.setItems(employeeData);
      }
+
+     @FXML
+    private void switchToMenu() {
+        try {
+            Parent menuView = FXMLLoader.load(getClass().getResource("/view/main_view.fxml"));
+            Scene scene = new Scene(menuView);
+            Stage stage = (Stage) menuButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void switchToSalaries()
+    {
+        try {
+            Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
+            Scene scene = new Scene(salariesView);
+            Stage stage = (Stage) salariesButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
  }
  
