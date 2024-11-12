@@ -34,7 +34,7 @@ public class Employee implements IEmployee
     public void initEmpID() { empID = ++idCounter; }
     
     public int getDivID() { return divID; }
-    public void setDivID(int _departmentID) { divID = _departmentID; }
+    public void setDivID(int _divID) { divID = _divID; }
 
     public String getFName() { return fName; }
     public void setFName(String _fName) { fName = _fName; }

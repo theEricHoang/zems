@@ -10,4 +10,5 @@ com/z/controller/UpdateSalariesController.class
 com/z/model/Payroll.class
 com/z/model/Address.class
 com/z/model/AbstractAddress.class
+com/z/controller/EmployeesController.class
 com/z/controller/SalariesController.class
