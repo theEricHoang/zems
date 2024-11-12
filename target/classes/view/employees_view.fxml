@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.z.controller.EmployeesController">
+    <Label text="Employees View" />
+
+    <!-- Example content for the Employees view -->
+    <TableView fx:id="employeeTable">
+        <columns>
+            <TableColumn text="Employee ID" />
+            <TableColumn text="First Name" />
+            <TableColumn text="Last Name" />
+            <!-- Add other columns as needed -->
+        </columns>
+    </TableView>
+
+    <!-- Button to return to the Main view -->
+    <Button text="Back to Main View" onAction="#switchToMainView" />
+</VBox>
