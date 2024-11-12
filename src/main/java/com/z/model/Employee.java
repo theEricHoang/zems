@@ -1,84 +1,62 @@
 package com.z.model;
 
-public class Employee {
-    private int empID;
-    private String fName;
-    private String lName;
-    private String email;
-    private String ssn;
-    private String division;
-    private String jobTitle;
-    private String hireDate;
+public class Employee implements IEmployee
+{
+    // For incrementing IDs with each new employee.
+    // Will be updated from database, so each session
+    // should retrieve current highest ID and set
+    // idCounter accordingly.
+    private static int idCounter = 0;
+
+    private int empID, divID;
+    private String fName, lName, ssn, division, jobTitle, email, hireDate;
     private double salary;
-    private String state;
 
-    // Constructor with empID
-    public Employee(int empID, String fName, String lName, String email, String ssn, String division, String jobTitle, String hireDate, double salary, String state) {
-        this.empID = empID;
-        this.fName = fName;
-        this.lName = lName;
-        this.email = email;
-        this.ssn = ssn;
-        this.division = division;
-        this.jobTitle = jobTitle;
-        this.hireDate = hireDate;
-        this.salary = salary;
-        this.state = state;
-    }
-    
-    // Constructor without empID
-    public Employee(String fName, String lName, String email, String ssn, String division, String jobTitle, String hireDate, double salary, String state) {
-        this.fName = fName;
-        this.lName = lName;
-        this.email = email;
-        this.ssn = ssn;
-        this.division = division;
-        this.jobTitle = jobTitle;
-        this.hireDate = hireDate;
-        this.salary = salary;
-        this.state = state;
+    public Employee(boolean _newEmployee, int _divisionID, String _fName, String _lName, String _email, String _ssn,
+                    String _hireDate, String _division, String _jobTitle, double _salary)
+    {
+        if (_newEmployee) { initEmpID(); }
+        setDivID(_divisionID);
+        setFName(_fName);
+        setLName(_lName);
+        setEmail(_email);
+        setSSN(_ssn);
+        setHireDate(_hireDate);
+        setDivision(_division);
+        setJobTitle(_jobTitle);
+        setSalary(_salary);
     }
 
-    // No-argument constructor
-    public Employee() {}
+    public static void setInitialIDCounter(int _initialID) { idCounter = _initialID; }
 
-    // Getters and Setters for each field
     public int getEmpID() { return empID; }
-    public void setEmpID(int empID) { this.empID = empID; }
+    public void setEmpID(int _empID) { empID = _empID; }
+    public void initEmpID() { empID = ++idCounter; }
+    
+    public int getDivID() { return divID; }
+    public void setDivID(int _divID) { divID = _divID; }
 
     public String getFName() { return fName; }
-    public void setFName(String fName) { this.fName = fName; }
+    public void setFName(String _fName) { fName = _fName; }
 
     public String getLName() { return lName; }
-    public void setLName(String lName) { this.lName = lName; }
-
-    public String getName() { return fName + " " + lName; }
-    
-    // setName method that accepts a single name string and splits it into first and last names
-    public void setName(String name) {
-        String[] parts = name.split(" ");
-        if (parts.length > 0) this.fName = parts[0];
-        if (parts.length > 1) this.lName = parts[1];
-    }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setLName(String _lName) { lName = _lName; }
 
     public String getSSN() { return ssn; }
-    public void setSSN(String ssn) { this.ssn = ssn; }
+    public void setSSN(String _ssn) { ssn = _ssn; }
 
     public String getDivision() { return division; }
-    public void setDivision(String division) { this.division = division; }
+    public void setDivision(String _division) { division = _division; }
 
     public String getJobTitle() { return jobTitle; }
-    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
-
-    public String getHireDate() { return hireDate; }
-    public void setHireDate(String hireDate) { this.hireDate = hireDate; }
+    public void setJobTitle(String _jobTitle) { jobTitle = _jobTitle; }
 
     public double getSalary() { return salary; }
-    public void setSalary(double salary) { this.salary = salary; }
+    public void setSalary(double _salary) { salary = _salary; }
 
-    public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
+    public String getEmail() { return email; }
+    public void setEmail(String _email) { email = _email; }
+
+    public String getHireDate() { return hireDate; }
+    public void setHireDate(String _hireDate) { hireDate = _hireDate; }
 }

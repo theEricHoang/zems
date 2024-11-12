@@ -2,7 +2,6 @@ package com.z.controller;
 
 import java.sql.SQLException;
 
-import com.mysql.cj.xdevapi.Schema.Validation;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
 import com.z.service.DatabaseService;
@@ -16,8 +15,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddEmployeeController {
-    @FXML private Button addButton;
+public class EditEmployeeController {
+    @FXML private Button saveButton;
     @FXML private Button cancelButton;
     @FXML private TextField fNameField;
     @FXML private TextField lNameField;
@@ -35,6 +34,8 @@ public class AddEmployeeController {
     @FXML private TextField cityField;
     @FXML private ChoiceBox<String> stateChoice;
 
+    private Employee employee;
+
     @FXML
     public void initialize()
     {
@@ -45,8 +46,23 @@ public class AddEmployeeController {
                                       "UT", "VT", "VA", "WA", "WV", "WI", "WY");
     }
 
+    public void setEmployee(Employee _employee)
+    {
+        employee = _employee;
+
+        fNameField.setText(employee.getFName());
+        lNameField.setText(employee.getLName());
+        emailField.setText(employee.getEmail());
+        divChoice.setValue(employee.getDivision());
+        jobTitleField.setText(employee.getJobTitle());
+        ssnField.setText(employee.getSSN());
+        salaryField.setText(String.valueOf(employee.getSalary()));
+        hireDateField.setText(employee.getHireDate());
+        // TODO: fill other fields with data from Address class info
+    }
+
     @FXML
-    private void handleAdd()
+    private void handleSave()
     {
         String _fName = fNameField.getText();
         String _lName = lNameField.getText();
@@ -64,15 +80,10 @@ public class AddEmployeeController {
         String _city = cityField.getText();
         String _state = stateChoice.getValue();
         
-        if (!Validation.isValidSSN(_ssn) || !Validation.isValidDate(_hireDate) || !Validation.isValidEmail(_email)) {
-            showAlert("Please enter valid SSN, hire date, and email.");
-            return;
-        }
-
         try {
             _salary = Double.parseDouble(salaryField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Invalid salary. Please enter a numeric value.");
+            showAlert("Invalid input! Salary must be a valid number.");
             return;
         }
 
@@ -97,21 +108,25 @@ public class AddEmployeeController {
         }
 
         int _divID = DatabaseService.fetchDivisionID(_division);
+        employee.setFName(_fName);
+        employee.setLName(_lName);
+        employee.setEmail(_email);
+        employee.setDivID(_divID);
+        employee.setDivision(_division);
+        employee.setJobTitle(_jobTitle);
+        employee.setSSN(_ssn);
+        employee.setSalary(_salary);
+        employee.setHireDate(_hireDate);
 
-        Employee employee = new Employee(true, _divID, _fName, _lName, _email, _ssn, _hireDate, _division, _jobTitle, _salary);
         try {
-            if (EmployeeDAO.addEmployee(employee) /* TODO: handle address and demographic info */) {
-                showAlert("Employee added successfully!");
-            } else {
-                showAlert("Error adding employee. Please try again.");
-            }
-        } catch (Exception e) {
-            showAlert("An unexpected error occurred. Please try again.");
+            EmployeeDAO.updateEmployee(employee);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        // TODO: handle address and demographic info
         
         // close window after done
-        Stage stage = (Stage) addButton.getScene().getWindow();
+        Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     }
 

@@ -72,4 +72,22 @@ public class DatabaseService {
         }
         return divID;
     }
+
+    public static int fetchTitleID(String title)
+    {
+        int titleID = 102; // default value Software Engineer
+        String query = "SELECT job_title_id FROM job_titles WHERE job_title = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, title);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                titleID = rs.getInt("job_title_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return titleID;
+    }
 }
