@@ -1,10 +1,12 @@
-package com.z.model.dao;
+/*
+ * This class, EmployeeDAO, is responsible for managing database operations
+ * related to employees. It provides methods to add, search, delete, and
+ * retrieve employees from a database. It interacts with the database
+ * through SQL queries and maps the data to Employee objects for use in
+ * the application.
+ */
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+package com.z.model.dao;
 
 import com.z.model.Employee;
 import com.z.service.DatabaseService;
@@ -157,4 +159,74 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
     }
+  
+    /*
+      * Searches for a single employee by SSN.
+      * This method returns an Employee object if an employee with the specified SSN is found.
+      * If no matching employee is found, it returns null.
+      */
+     public Employee searchEmployeeBySSN(String ssn) {
+         String query = "SELECT * FROM employees WHERE ssn = ?"; // SQL to find an employee by SSN.
+         
+         try (PreparedStatement statement = connection.prepareStatement(query)) {
+             statement.setString(1, ssn); // Sets the SSN parameter in the SQL query.
+             ResultSet resultSet = statement.executeQuery(); // Executes the query and gets the result.
+ 
+             if (resultSet.next()) { // If a result is found, map it to an Employee object.
+                 return mapRowToEmployee(resultSet); // Convert the row data into an Employee object.
+             }
+         } catch (SQLException e) {
+             e.printStackTrace(); // Prints the error if something goes wrong.
+         }
+         
+         return null; // If no employee is found, returns null.
+     }
+ 
+     /*
+      * Searches for a single employee by employee ID.
+      * This method returns an Employee object if an employee with the specified ID is found.
+      * If no matching employee is found, it returns null.
+      */
+     public Employee searchEmployeeByEmpID(int empID) {
+         String query = "SELECT * FROM employees WHERE empID = ?"; // SQL to find an employee by ID.
+ 
+         try (PreparedStatement statement = connection.prepareStatement(query)) {
+             statement.setInt(1, empID); // Sets the employee ID parameter in the SQL query.
+             ResultSet resultSet = statement.executeQuery(); // Executes the query and gets the result.
+ 
+             if (resultSet.next()) { // If a result is found, map it to an Employee object.
+                 return mapRowToEmployee(resultSet); // Convert the row data into an Employee object.
+             }
+         } catch (SQLException e) {
+             e.printStackTrace(); // Prints the error if something goes wrong.
+         }
+ 
+         return null; // If no employee is found, returns null.
+     }
+ 
+     /*
+      * Searches for employees by name (partial or full match).
+      * This method returns a list of Employee objects with names that match the search term.
+      * If no employees are found, it returns an empty list.
+      */
+     public List<Employee> searchEmployeeByName(String name) {
+         List<Employee> employees = new ArrayList<>(); // List to store the search results.
+         String query = "SELECT * FROM employees WHERE name LIKE ?"; // SQL query with LIKE for partial matches.
+         
+         try (PreparedStatement statement = connection.prepareStatement(query)) {
+             statement.setString(1, "%" + name + "%"); // Sets the name parameter with wildcard characters.
+             ResultSet resultSet = statement.executeQuery(); // Executes the query and gets the result.
+ 
+             // Loops through each result row and converts it to an Employee object.
+             while (resultSet.next()) {
+                 Employee employee = mapRowToEmployee(resultSet);
+                 employees.add(employee); // Adds each Employee to the list.
+             }
+         } catch (SQLException e) {
+             e.printStackTrace(); // Prints the error if something goes wrong.
+         }
+         
+         return employees; // Returns the list of matching employees.
+     }
+ 
 }

@@ -1,3 +1,10 @@
+/*
+ * This class, EmployeesController, is responsible for managing the
+ * display of employee data in a table, as well as handling user interactions
+ * like adding new employees and searching for specific ones.
+ * It uses data from the database through the EmployeeDAO class and 
+ * displays it in a TableView for easy viewing in the application.
+ */
 package com.z.controller;
 
 import com.z.App;

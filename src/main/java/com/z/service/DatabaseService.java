@@ -10,10 +10,11 @@ import java.sql.Statement;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseService {
-    public static Connection getConnection()
-    {
-        Dotenv dotenv = Dotenv.load();
 
+    // Method to establish a database connection using environment variables
+    public static Connection getConnection() {
+        Dotenv dotenv = Dotenv.load();
+        
         String dbUrl = dotenv.get("DB_URL");
         String dbUsername = dotenv.get("DB_USERNAME");
         String dbPassword = dotenv.get("DB_PASSWORD");
@@ -26,32 +27,45 @@ public class DatabaseService {
         }
     }
 
-    public static int fetchHighestEmployeeID(Connection connection)
-    {
+    // Method to fetch the highest employee ID from the database
+    public static int fetchHighestEmployeeID(Connection connection) {
+        if (connection == null) {
+            System.err.println("Connection is null. Cannot fetch highest employee ID.");
+            return -1; // Indicate an error with a negative value
+        }
+
         int highestID = 0;
-        try (Statement statement = connection.createStatement()) {
-            String query = "SELECT MAX(empid) AS maxID FROM employees";
-            ResultSet rs = statement.executeQuery(query);
+        String query = "SELECT MAX(empid) AS maxID FROM employees";
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(query)) {
+
             if (rs.next()) {
                 highestID = rs.getInt("maxID");
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return highestID;
     }
 
-    public static int fetchDivisionID(String division)
-    {
-        int divID = 0;
+    // Method to fetch the division ID by division name
+    public static int fetchDivisionID(String division) {
+        int divID = -1; // Use -1 to indicate an invalid ID if not found
         String query = "SELECT ID FROM division WHERE Name = ?";
+        
         try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+             PreparedStatement stmt = connection != null ? connection.prepareStatement(query) : null) {
+             
+            if (stmt == null) {
+                System.err.println("Connection is null. Cannot fetch division ID.");
+                return divID;
+            }
+             
             stmt.setString(1, division);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                divID = rs.getInt("ID");
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    divID = rs.getInt("ID");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

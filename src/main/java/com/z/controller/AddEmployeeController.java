@@ -2,6 +2,7 @@ package com.z.controller;
 
 import java.sql.SQLException;
 
+import com.mysql.cj.xdevapi.Schema.Validation;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
 import com.z.service.DatabaseService;
@@ -63,10 +64,15 @@ public class AddEmployeeController {
         String _city = cityField.getText();
         String _state = stateChoice.getValue();
         
+        if (!Validation.isValidSSN(_ssn) || !Validation.isValidDate(_hireDate) || !Validation.isValidEmail(_email)) {
+            showAlert("Please enter valid SSN, hire date, and email.");
+            return;
+        }
+
         try {
             _salary = Double.parseDouble(salaryField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Invalid input! Salary must be a valid number.");
+            showAlert("Invalid salary. Please enter a numeric value.");
             return;
         }
 
@@ -94,11 +100,15 @@ public class AddEmployeeController {
 
         Employee employee = new Employee(true, _divID, _fName, _lName, _email, _ssn, _hireDate, _division, _jobTitle, _salary);
         try {
-            EmployeeDAO.addEmployee(employee);
-        } catch (SQLException e) {
+            if (EmployeeDAO.addEmployee(employee) /* TODO: handle address and demographic info */) {
+                showAlert("Employee added successfully!");
+            } else {
+                showAlert("Error adding employee. Please try again.");
+            }
+        } catch (Exception e) {
+            showAlert("An unexpected error occurred. Please try again.");
             e.printStackTrace();
         }
-        // TODO: handle address and demographic info
         
         // close window after done
         Stage stage = (Stage) addButton.getScene().getWindow();
