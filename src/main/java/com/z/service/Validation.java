@@ -3,8 +3,10 @@ package com.z.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class Validation {
+
     public static boolean isValidSSN(String ssn) {
         return ssn != null && ssn.matches("\\d{3}-\\d{2}-\\d{4}");
     }
@@ -19,7 +21,6 @@ public class Validation {
         }
     }
 
-        // Method to validate if empID is a valid positive integer
     public static boolean isValidEmpID(String empID) {
         try {
             int id = Integer.parseInt(empID);
@@ -46,5 +47,33 @@ public class Validation {
 
     public static boolean isValidName(String name) {
         return name != null && name.matches("^[a-zA-Z\\s]+$");
+    }
+
+    public static boolean validateCityID(int cityID) {
+        return cityID > 0; // Assuming valid cityIDs are positive
+    }
+
+    public static boolean validateStateID(int stateID) {
+        return stateID > 0; // Assuming valid stateIDs are positive
+    }
+
+    public static boolean validateGender(String gender) {
+        return gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("Other");
+    }
+
+    public static boolean validatePronouns(String pronouns) {
+        return pronouns != null && !pronouns.trim().isEmpty();
+    }
+
+    public static boolean validateRace(String race) {
+        return race != null && !race.trim().isEmpty();
+    }
+
+    public static boolean validateDOB(LocalDate dob) {
+        return dob != null && dob.isBefore(LocalDate.now());
+    }
+
+    public static boolean validatePhone(String phone) {
+        return phone.matches("\\d{3}-\\d{3}-\\d{4}");
     }
 }
