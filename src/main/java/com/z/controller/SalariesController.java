@@ -20,6 +20,9 @@ public class SalariesController {
     private Button updateSalariesButton;
 
     @FXML
+    private Button totalPayButton;
+
+    @FXML
     private void switchToUpdateSalaries()
     {
         try {
@@ -29,6 +32,19 @@ public class SalariesController {
             Scene scene = new Scene(updateSalariesView);
             updateSalariesStage.setScene(scene);
             updateSalariesStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void switchToTotalPay()
+    {
+        try {
+            Parent totalPayView = FXMLLoader.load(getClass().getResource("/view/total_pay.fxml"));
+            Scene scene = new Scene(totalPayView);
+            Stage stage = (Stage) totalPayButton.getScene().getWindow();
+            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }

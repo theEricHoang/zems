@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.TotalPayController">
+   <top>
+      <HBox prefHeight="21.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField prefHeight="26.0" prefWidth="169.0" promptText="Search Month and Year....">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Search" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="15.0" top="15.0" />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox prefHeight="59.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="26.0" prefWidth="107.0" text="Back to Menu">
+               <HBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="employeesButton" mnemonicParsing="false" onAction="#switchToEmployees" prefHeight="26.0" prefWidth="107.0" text="View Employees">
+               <HBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets top="-10.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <right>
+      <VBox prefHeight="400.0" prefWidth="142.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Pay by Month:" textAlignment="CENTER" wrappingWidth="122.6943359375">
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </Text>
+            <Button fx:id="divisionButton" mnemonicParsing="false" onAction="#showDivisionTable" prefHeight="26.0" prefWidth="107.0" text="By Division">
+               <VBox.margin>
+                  <Insets left="15.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="titleButton" mnemonicParsing="false" onAction="#showTitleTable" prefHeight="26.0" prefWidth="107.0" text="By Job Title">
+               <VBox.margin>
+                  <Insets left="15.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="salariesButton" mnemonicParsing="false" onAction="#switchToSalaries" prefHeight="26.0" prefWidth="107.0" text="Back">
+               <VBox.margin>
+                  <Insets left="15.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="divisionTable" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Division" />
+                  <TableColumn prefWidth="75.0" text="Total Pay" />
+               </columns>
+            </TableView>
+            <TableView fx:id="titleTable" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Title" />
+                  <TableColumn prefWidth="75.0" text="Total Pay" />
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
