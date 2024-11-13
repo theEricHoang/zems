@@ -10,6 +10,7 @@ package com.z.controller;
 import com.z.App;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
+import com.z.service.Validation;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -65,6 +66,7 @@ public class EmployeesController {
      */
     @FXML private TextField searchField;
     @FXML private ChoiceBox<String> searchChoice;
+    @FXML private Button searchButton;
 
     @FXML
     private void handleAddEmployee()
@@ -97,7 +99,7 @@ public class EmployeesController {
         employeeHireDates.setCellValueFactory(new PropertyValueFactory<>("hireDate"));
         employeeSalaries.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        searchChoice.getItems().addAll("ID", "First Name", "Last Name", "SSN");
+        searchChoice.getItems().addAll("ID", "Name", "SSN");
 
         loadEmployeeData();
         addEditButtons();
@@ -111,6 +113,78 @@ public class EmployeesController {
 
         // call EmployeeDAO to query database and search for employees by attribute
         // return it to employees
+        // ObservableList to store and display the search results
+        ObservableList<Employee> results = FXCollections.observableArrayList();
+ 
+         // Checks if both the search criterion and search term have been entered
+        if (searchFilter == null || search.isEmpty()) {
+           loadEmployeeData(); // reset tableview when search is empty
+           return; // Stops the method if any of these fields are empty
+        }
+ 
+        // Determines the search action based on the selected search criterion
+        switch (searchFilter) {
+            case "SSN":
+                // Validates the SSN format using the Validation class
+                if (!Validation.isValidSSN(search)) {
+                    showAlert("Invalid SSN. Please enter a valid SSN.");
+                    return;
+                }
+                 // Calls EmployeeDAO to search for an employee by SSN
+                Employee employeeBySSN = EmployeeDAO.searchEmployeeBySSN(search);
+                 
+                // Checks if an employee was found and adds it to the results
+                if (employeeBySSN != null) {
+                    results.add(employeeBySSN);
+                } else {
+                   showAlert("No employee found with the specified SSN.");
+                }
+                break;
+ 
+            case "ID":
+                // Validates the Employee ID format using the Validation class
+                if (!Validation.isValidEmpID(search)) {
+                    showAlert("Invalid Employee ID. Please enter a valid ID.");
+                    return;
+                }
+                try {
+                    // Converts the search term to an integer for Employee ID
+                    int empID = Integer.parseInt(search);
+                    // Calls EmployeeDAO to search for an employee by empID
+                    Employee employeeByID = EmployeeDAO.searchEmployeeByEmpID(empID);
+ 
+                    // Checks if an employee was found and adds it to the results
+                    if (employeeByID != null) {
+                        results.add(employeeByID);
+                    } else {
+                        showAlert("No employee found with the specified Employee ID.");
+                    }
+                } catch (NumberFormatException e) {
+                    // Catches any error if the Employee ID is not a valid integer
+                    showAlert("Invalid empID format. Please enter a numeric value.");
+                }
+                break;
+ 
+            case "Name":
+                // Calls EmployeeDAO to search for employees by name (can be partial matches)
+                ObservableList<Employee> employeesByName = EmployeeDAO.searchEmployeeByName(search);
+ 
+                // Checks if any employees were found and adds them to the results
+                if (!employeesByName.isEmpty()) {
+                    results = employeesByName;
+                } else {
+                    showAlert("No employees found with the specified name.");
+                }
+                break;
+ 
+            default:
+                // If the criterion is unrecognized, shows an error message
+                showAlert("Invalid search criterion selected.");
+                return;
+        }
+ 
+        // Sets the results in the table to display them to the user
+        employeeTable.setItems(results);
     }
 
     @FXML

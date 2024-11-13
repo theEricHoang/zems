@@ -1,8 +1,6 @@
 package com.z.controller;
 
-import java.sql.SQLException;
-
-import com.mysql.cj.xdevapi.Schema.Validation;
+import com.z.service.Validation;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
 import com.z.service.DatabaseService;
