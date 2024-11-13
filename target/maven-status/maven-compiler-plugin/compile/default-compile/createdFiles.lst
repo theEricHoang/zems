@@ -1,14 +1,7 @@
-com/z/model/IPayroll.class
-com/z/controller/MainController.class
-com/z/model/IEmployee.class
-com/z/service/DatabaseService.class
-com/z/model/dao/EmployeeDAO.class
-com/z/App.class
-com/z/model/Employee.class
 module-info.class
-com/z/controller/UpdateSalariesController.class
 com/z/model/Payroll.class
 com/z/model/Address.class
+com/z/controller/SalariesController.class
+com/z/controller/UpdateSalariesController.class
 com/z/model/AbstractAddress.class
 com/z/controller/EmployeesController.class
-com/z/controller/SalariesController.class

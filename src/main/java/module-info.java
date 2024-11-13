@@ -1,8 +1,9 @@
 module com.z {
+    requires transitive java.sql;
     requires javafx.controls;
     requires transitive javafx.graphics;
     requires javafx.fxml;
-    requires java.sql;  
+     
 
     requires io.github.cdimascio.dotenv.java;
 
@@ -14,4 +15,5 @@ module com.z {
 
     opens com.z.model to javafx.fxml;
     exports com.z.model;
+    exports com.z.model.dao;
 }
