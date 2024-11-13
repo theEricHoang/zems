@@ -168,6 +168,111 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
     }
+
+    public static StringBuilder getPayStatementHistory(int empID, Connection conn) throws SQLException {
+        StringBuilder output = new StringBuilder();
+        String query = "SELECT p.empid, p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, " +
+                       "p.state_tax, p.retire_401k, p.health_care " +
+                       "FROM payroll p " +
+                       "WHERE p.empid = ? " +
+                       "ORDER BY p.pay_date;";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, empID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                output.append("\tEMP ID\tPAY DATE\tGROSS\tFederal\tFedMed\tFedSS\tState\t401K\tHealthCare\n");
+    
+                while (rs.next()) {
+                    output.append("\t").append(rs.getInt("empid")).append("\t");
+                    output.append(rs.getDate("pay_date")).append("\t").append(rs.getDouble("earnings")).append("\t");
+                    output.append(rs.getDouble("fed_tax")).append("\t").append(rs.getDouble("fed_med")).append("\t");
+                    output.append(rs.getDouble("fed_SS")).append("\t");
+                    output.append(rs.getDouble("state_tax")).append("\t");
+                    output.append(rs.getDouble("retire_401k")).append("\t");
+                    output.append(rs.getDouble("health_care")).append("\n");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error retrieving pay statement history.", e);
+        }
+        return output;
+    }
+
+    public static StringBuilder getTotalPayByMonthJobTitle(int month, int year, Connection conn) throws SQLException {
+        StringBuilder output = new StringBuilder();
+        String query = "SELECT jt.job_title, SUM(p.earnings) AS total_earnings " +
+                       "FROM payroll p " +
+                       "JOIN employee_job_titles ejt ON p.empid = ejt.empid " +
+                       "JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id " +
+                       "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? " +
+                       "GROUP BY jt.job_title " +
+                       "ORDER BY jt.job_title;";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, month);
+            pstmt.setInt(2, year);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                output.append("JOB TITLE\tTOTAL PAY\n");
+                while (rs.next()) {
+                    output.append(rs.getString("job_title")).append("\t");
+                    output.append(rs.getDouble("total_earnings")).append("\n");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error retrieving total pay by job title.", e);
+        }
+        return output;
+    }
+
+    public static StringBuilder getTotalPayByMonthDivision(int month, int year, Connection conn) throws SQLException {
+        StringBuilder output = new StringBuilder();
+        String query = "SELECT d.Name AS division_name, SUM(p.earnings) AS total_earnings " +
+                       "FROM payroll p " +
+                       "JOIN employee_division ed ON p.empid = ed.empid " +
+                       "JOIN division d ON ed.div_ID = d.ID " +
+                       "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? " +
+                       "GROUP BY d.Name " +
+                       "ORDER BY d.Name;";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, month);
+            pstmt.setInt(2, year);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                output.append("DIVISION\tTOTAL PAY\n");
+                while (rs.next()) {
+                    output.append(rs.getString("division_name")).append("\t");
+                    output.append(rs.getDouble("total_earnings")).append("\n");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error retrieving total pay by division.", e);
+        }
+        return output;
+    }
+    
+
+    public static void updateEmployeeSalaryByRange(double percentageIncrease, double minSalary, double maxSalary, Connection conn) throws SQLException {
+        // Calculate the increase factor (e.g., 3.2% -> 1.032)
+        double increaseFactor = 1 + (percentageIncrease / 100);
+    
+        String updateSalaryQuery = "UPDATE employees SET Salary = Salary * ? WHERE Salary >= ? AND Salary < ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(updateSalaryQuery)) {
+            pstmt.setDouble(1, increaseFactor);  // Set the increase factor (e.g., 1.032 for 3.2%)
+            pstmt.setDouble(2, minSalary);       // Set the minimum salary limit (e.g., 58000)
+            pstmt.setDouble(3, maxSalary);       // Set the maximum salary limit (e.g., 105000)
+    
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println(rowsAffected + " employee(s) salary updated.");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error updating employee salaries.", e);
+        }
+    }
   
     /*
       * Searches for a single employee by SSN.
