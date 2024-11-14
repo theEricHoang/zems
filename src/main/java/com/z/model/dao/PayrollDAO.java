@@ -75,8 +75,8 @@ public static double getDivisionPay(Connection conn, String division) throws SQL
 }
 
 // Get Payroll information for an employee by empID
-public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws SQLException {
-    Payroll payroll = null;
+public static ObservableList<Payroll> getPayrollInfoByEmpID(int empID, Connection conn) throws SQLException {
+    ObservableList<Payroll> payrolls = FXCollections.observableArrayList();
     String query = "SELECT CONCAT(Fname, ' ', Lname) AS name, jt.job_title AS title, e.email, e.empid, "
                     + "p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, p.state_tax, p.retire_401k, p.health_care "
                     + "FROM employees e "
@@ -88,28 +88,31 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
         pstmt.setInt(1, empID);
         try (ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next()) {
-                payroll = new Payroll(
-                    rs.getString("name"),
-                    rs.getString("title"),
-                    rs.getString("email"),
-                    rs.getInt("empid"),
-                    rs.getString("pay_date"),
-                    rs.getInt("earnings"),
-                    rs.getInt("fed_tax"),
-                    rs.getInt("fed_med"),
-                    rs.getInt("fed_SS"),
-                    rs.getInt("state_tax"),
-                    rs.getInt("retire_401k"),
-                    rs.getInt("health_care")
-                );
+            while (rs.next()) {
+                String _name = rs.getString("name");
+                String _title = rs.getString("title");
+                String _email = rs.getString("email");
+                int _empID = rs.getInt("empid");
+                String _payDate = rs.getString("pay_date");
+                double _gross = rs.getDouble("earnings");
+                double _federal = rs.getDouble("fed_tax");
+                double _fedMed = rs.getDouble("fed_med");
+                double _fedSS = rs.getDouble("fed_SS");
+                double _state = rs.getDouble("state_tax");
+                double _emp401K = rs.getDouble("retire_401k");
+                double _healthCare = rs.getDouble("health_care");
+
+                // Create Payroll object using data from ResultSet
+                Payroll payroll = new Payroll(_name, _title, _email, _empID, _payDate, _gross, _federal, _fedMed, _fedSS, _state, _emp401K, _healthCare);
+                
+                payrolls.add(payroll);
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
         throw new SQLException("Error retrieving payroll information.", e);
     }
-    return payroll;
+    return payrolls;
 }
 
 //get all the employee payroll infor default for payroll page

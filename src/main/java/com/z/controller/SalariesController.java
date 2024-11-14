@@ -67,12 +67,13 @@ public class SalariesController {
 
             // Query PayrollDAO to retrieve the payroll information by empID
             try (Connection conn = DatabaseService.getConnection()) {
-                Payroll payroll = PayrollDAO.getPayrollInfoByEmpID(empID, conn);
+                payrollData.clear();
+                ObservableList<Payroll> payrolls = PayrollDAO.getPayrollInfoByEmpID(empID, conn);
 
                 // Display the result in the payroll table
-                if (payroll != null) {
+                if (payrolls != null) {
                     payrollData.clear();  // Clear any existing data
-                    payrollData.add(payroll);  // Add the search result to the data
+                    payrollData = payrolls;
                     payrollTable.setItems(payrollData);  // Update the table view
                 } else {
                     showAlert("No payroll record found for Employee ID: " + empID);
