@@ -64,19 +64,19 @@ public class SalariesController {
         // Validate that the search input is a valid integer for empID
         try {
             int empID = Integer.parseInt(search);
-
+    
             // Query PayrollDAO to retrieve the payroll information by empID
             try (Connection conn = DatabaseService.getConnection()) {
-                Payroll payroll = PayrollDAO.getPayrollInfoByEmpID(empID, conn);
-
-                // Display the result in the payroll table
-                if (payroll != null) {
-                    payrollData.clear();  // Clear any existing data
-                    payrollData.add(payroll);  // Add the search result to the data
-                    payrollTable.setItems(payrollData);  // Update the table view
+                ObservableList<Payroll> payrollList = PayrollDAO.getPayrollInfoByEmpID(empID, conn);
+    
+                // Display the results in the payroll table
+                if (payrollList != null && !payrollList.isEmpty()) {
+                    payrollData.clear(); // Clear any existing data
+                    payrollData.addAll(payrollList); // Add all search results to the data
+                    payrollTable.setItems(payrollData); // Update the table view
                 } else {
                     showAlert("No payroll record found for Employee ID: " + empID);
-                    loadPayrollData();  // Reset the table if no record is found
+                    loadPayrollData(); // Reset the table if no record is found
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
