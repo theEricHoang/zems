@@ -77,7 +77,13 @@ public static double getDivisionPay(Connection conn, String division) throws SQL
 // Get Payroll information for an employee by empID
 public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws SQLException {
     Payroll payroll = null;
-    String query = "SELECT * FROM payroll WHERE empID = ?";
+    String query = "SELECT CONCAT(Fname, ' ', Lname) AS name, jt.job_title AS title, e.email, e.empid, "
+                    + "p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, p.state_tax, p.retire_401k, p.health_care "
+                    + "FROM employees e "
+                    + "JOIN payroll p ON e.empid = p.empid "
+                    + "JOIN employee_job_titles ejt ON e.empid = ejt.empid "
+                    + "JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id "
+                    + "WHERE e.empid = ?";
 
     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
         pstmt.setInt(1, empID);
@@ -87,15 +93,15 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
                     rs.getString("name"),
                     rs.getString("title"),
                     rs.getString("email"),
-                    rs.getInt("empID"),
-                    rs.getString("payDate"),
-                    rs.getInt("gross"),
-                    rs.getInt("federal"),
-                    rs.getInt("fedMed"),
-                    rs.getInt("fedSS"),
-                    rs.getInt("state"),
-                    rs.getInt("emp401K"),
-                    rs.getInt("healthCare")
+                    rs.getInt("empid"),
+                    rs.getString("pay_date"),
+                    rs.getInt("earnings"),
+                    rs.getInt("fed_tax"),
+                    rs.getInt("fed_med"),
+                    rs.getInt("fed_SS"),
+                    rs.getInt("state_tax"),
+                    rs.getInt("retire_401k"),
+                    rs.getInt("health_care")
                 );
             }
         }
@@ -110,10 +116,10 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
 public static ObservableList<Payroll> getAllPayrolls() throws SQLException {
     ObservableList<Payroll> payrolls = FXCollections.observableArrayList();
     String query = "SELECT CONCAT(e.Fname, ' ', e.Lname) AS name, e.email, p.empid, p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, p.state_tax, p.retire_401k, p.health_care, jt.job_title AS title " +
-               "FROM payroll p " +
-               "LEFT JOIN employees e ON e.empid = p.empid " +
-               "LEFT JOIN employee_job_titles ejt ON ejt.empid = p.empid " +
-               "LEFT JOIN job_titles jt ON jt.job_title_id = ejt.job_title_id;";
+                    "FROM payroll p " +
+                    "LEFT JOIN employees e ON e.empid = p.empid " +
+                    "LEFT JOIN employee_job_titles ejt ON ejt.empid = p.empid " +
+                    "LEFT JOIN job_titles jt ON jt.job_title_id = ejt.job_title_id;";
 
     try (Connection conn = DatabaseService.getConnection();
          Statement stmt = conn.createStatement();

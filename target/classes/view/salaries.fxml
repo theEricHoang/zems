@@ -17,12 +17,12 @@
    <top>
       <HBox prefHeight="21.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="26.0" prefWidth="169.0" promptText="Search Employee ID...">
+            <TextField fx:id="searchField" prefHeight="26.0" prefWidth="169.0" promptText="Search Employee ID...">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Search" />
+            <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
          </children>
          <BorderPane.margin>
             <Insets bottom="15.0" top="15.0" />
