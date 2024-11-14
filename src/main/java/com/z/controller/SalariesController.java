@@ -27,6 +27,7 @@ public class SalariesController {
 
     @FXML private TableView<Payroll> payrollTable;
     @FXML private TableColumn<Payroll, String> employeeName;
+    @FXML private TableColumn<Payroll, String> employeeTitle;
     @FXML private TableColumn<Payroll, String> employeeEmail;
     @FXML private TableColumn<Payroll, Integer> employeeID; 
     @FXML private TableColumn<Payroll, Double> employeePayDate;
@@ -48,6 +49,7 @@ public class SalariesController {
     public void initialize()
     {
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         employeeEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         employeeID.setCellValueFactory(new PropertyValueFactory<>("empID"));
         employeePayDate.setCellValueFactory(new PropertyValueFactory<>("payDate"));

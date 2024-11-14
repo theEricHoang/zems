@@ -5,6 +5,9 @@ public interface IPayroll {
     public String getName();
     public void setName(String _name);
 
+    public String getTitle();
+    public void setTitle(String _title);
+
     public String getEmail();
     public void setEmail(String _email);
 
