@@ -1,30 +1,40 @@
 package com.z.model;
 
 public interface IPayroll {
+
+    public String getName();
+    public void setName(String _name);
+
+    public String getTitle();
+    public void setTitle(String _title);
+
+    public String getEmail();
+    public void setEmail(String _email);
+
     public int getEmpID();
     public void setEmpID(int _empID);
 
-    public int getPayDate();
-    public void setPayDate(int _payDate);
+    public String getPayDate();
+    public void setPayDate(String _payDate);
 
-    public int getGross();
-    public void setGross(int _gross);
+    public double getGross();
+    public void setGross(double _gross);
 
-    public int getFederal();
-    public void setFederal(int _federal);
+    public double getFederal();
+    public void setFederal(double _federal);
 
-    public int getFedMed();
-    public void setFedMed(int _fedMed);
+    public double getFedMed();
+    public void setFedMed(double _fedMed);
 
-    public int getFedSS();
-    public void setFedSS(int _fedSS);
+    public double getFedSS();
+    public void setFedSS(double _fedSS);
 
-    public int getState();
-    public void setState(int _state);
+    public double getState();
+    public void setState(double _state);
 
-    public int get401K();
-    public void set401K(int _emp401K);
+    public double getEmp401K();
+    public void setEmp401K(double _emp401K);
 
-    public int getHealthCare();
-    public void setHealthCare(int _healthCare);
+    public double getHealthCare();
+    public void setHealthCare(double _healthCare);
 }

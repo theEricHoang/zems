@@ -84,8 +84,11 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 payroll = new Payroll(
+                    rs.getString("name"),
+                    rs.getString("title"),
+                    rs.getString("email"),
                     rs.getInt("empID"),
-                    rs.getInt("payDate"),
+                    rs.getString("payDate"),
                     rs.getInt("gross"),
                     rs.getInt("federal"),
                     rs.getInt("fedMed"),
@@ -106,26 +109,32 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
 //get all the employee payroll infor default for payroll page
 public static ObservableList<Payroll> getAllPayrolls() throws SQLException {
     ObservableList<Payroll> payrolls = FXCollections.observableArrayList();
-    String query = "SELECT * FROM payroll p " +
-                   "LEFT JOIN employees e ON p.empID = e.empID;";  // Joins with employees table to get employee details if necessary
+    String query = "SELECT CONCAT(e.Fname, ' ', e.Lname) AS name, e.email, p.empid, p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, p.state_tax, p.retire_401k, p.health_care, jt.job_title AS title " +
+               "FROM payroll p " +
+               "LEFT JOIN employees e ON e.empid = p.empid " +
+               "LEFT JOIN employee_job_titles ejt ON ejt.empid = p.empid " +
+               "LEFT JOIN job_titles jt ON jt.job_title_id = ejt.job_title_id;";
 
     try (Connection conn = DatabaseService.getConnection();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(query)) {
 
         while (rs.next()) {
-            int _empID = rs.getInt("empID");
-            int _payDate = rs.getInt("payDate");
-            int _gross = rs.getInt("gross");
-            int _federal = rs.getInt("federal");
-            int _fedMed = rs.getInt("fedMed");
-            int _fedSS = rs.getInt("fedSS");
-            int _state = rs.getInt("state");
-            int _emp401K = rs.getInt("emp401K");
-            int _healthCare = rs.getInt("healthCare");
+            String _name = rs.getString("name");
+            String _title = rs.getString("title");
+            String _email = rs.getString("email");
+            int _empID = rs.getInt("empid");
+            String _payDate = rs.getString("pay_date");
+            double _gross = rs.getDouble("earnings");
+            double _federal = rs.getDouble("fed_tax");
+            double _fedMed = rs.getDouble("fed_med");
+            double _fedSS = rs.getDouble("fed_SS");
+            double _state = rs.getDouble("state_tax");
+            double _emp401K = rs.getDouble("retire_401k");
+            double _healthCare = rs.getDouble("health_care");
 
             // Create Payroll object using data from ResultSet
-            Payroll payroll = new Payroll(_empID, _payDate, _gross, _federal, _fedMed, _fedSS, _state, _emp401K, _healthCare);
+            Payroll payroll = new Payroll(_name, _title, _email, _empID, _payDate, _gross, _federal, _fedMed, _fedSS, _state, _emp401K, _healthCare);
             
             payrolls.add(payroll);
         }

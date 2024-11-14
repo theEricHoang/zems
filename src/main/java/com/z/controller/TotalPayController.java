@@ -11,24 +11,16 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class TotalPayController {
-    @FXML
-    private Button menuButton;
-    @FXML
-    private Button employeesButton;
-    @FXML
-    private Button salariesButton;
+    @FXML private Button menuButton;
+    @FXML private Button employeesButton;
+    @FXML private Button salariesButton;
 
-    @FXML
-    private Button divisionButton;
-    @FXML
-    private Button titleButton;
-    @FXML
-    private Button backButton;
+    @FXML private Button divisionButton;
+    @FXML private Button titleButton;
+    @FXML private Button backButton;
 
-    @FXML
-    private TableView<?> divisionTable;
-    @FXML
-    private TableView<?> titleTable;
+    @FXML  private TableView<?> divisionTable;
+    @FXML private TableView<?> titleTable;
 
     @FXML
     private void switchToMenu()
