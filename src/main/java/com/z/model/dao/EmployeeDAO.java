@@ -13,8 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.z.model.Employee;
+import com.z.model.Payroll;
 import com.z.service.DatabaseService;
 
 import javafx.collections.FXCollections;
@@ -169,111 +172,127 @@ public class EmployeeDAO {
         }
     }
 
-    public static StringBuilder getPayStatementHistory(int empID, Connection conn) throws SQLException {
-        StringBuilder output = new StringBuilder();
-        String query = "SELECT p.empid, p.pay_date, p.earnings, p.fed_tax, p.fed_med, p.fed_SS, " +
-                       "p.state_tax, p.retire_401k, p.health_care " +
-                       "FROM payroll p " +
-                       "WHERE p.empid = ? " +
-                       "ORDER BY p.pay_date;";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, empID);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                output.append("\tEMP ID\tPAY DATE\tGROSS\tFederal\tFedMed\tFedSS\tState\t401K\tHealthCare\n");
-    
-                while (rs.next()) {
-                    output.append("\t").append(rs.getInt("empid")).append("\t");
-                    output.append(rs.getDate("pay_date")).append("\t").append(rs.getDouble("earnings")).append("\t");
-                    output.append(rs.getDouble("fed_tax")).append("\t").append(rs.getDouble("fed_med")).append("\t");
-                    output.append(rs.getDouble("fed_SS")).append("\t");
-                    output.append(rs.getDouble("state_tax")).append("\t");
-                    output.append(rs.getDouble("retire_401k")).append("\t");
-                    output.append(rs.getDouble("health_care")).append("\n");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error retrieving pay statement history.", e);
-        }
-        return output;
-    }
+// Update the salary of employees based on a salary range
+public static void updateEmployeeSalaryByRange(double percentageIncrease, double minSalary, double maxSalary, Connection conn) throws SQLException {
+    // Calculate the increase factor (e.g., 3.2% -> 1.032)
+    double increaseFactor = 1 + (percentageIncrease / 100);
 
-    public static StringBuilder getTotalPayByMonthJobTitle(int month, int year, Connection conn) throws SQLException {
-        StringBuilder output = new StringBuilder();
-        String query = "SELECT jt.job_title, SUM(p.earnings) AS total_earnings " +
-                       "FROM payroll p " +
-                       "JOIN employee_job_titles ejt ON p.empid = ejt.empid " +
-                       "JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id " +
-                       "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? " +
-                       "GROUP BY jt.job_title " +
-                       "ORDER BY jt.job_title;";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, month);
-            pstmt.setInt(2, year);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                output.append("JOB TITLE\tTOTAL PAY\n");
-                while (rs.next()) {
-                    output.append(rs.getString("job_title")).append("\t");
-                    output.append(rs.getDouble("total_earnings")).append("\n");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error retrieving total pay by job title.", e);
-        }
-        return output;
-    }
+    // SQL query to update salaries within a specific range
+    String updateSalaryQuery = "UPDATE employees SET Salary = Salary * ? WHERE Salary >= ? AND Salary < ?";
 
-    public static StringBuilder getTotalPayByMonthDivision(int month, int year, Connection conn) throws SQLException {
-        StringBuilder output = new StringBuilder();
-        String query = "SELECT d.Name AS division_name, SUM(p.earnings) AS total_earnings " +
-                       "FROM payroll p " +
-                       "JOIN employee_division ed ON p.empid = ed.empid " +
-                       "JOIN division d ON ed.div_ID = d.ID " +
-                       "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? " +
-                       "GROUP BY d.Name " +
-                       "ORDER BY d.Name;";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, month);
-            pstmt.setInt(2, year);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                output.append("DIVISION\tTOTAL PAY\n");
-                while (rs.next()) {
-                    output.append(rs.getString("division_name")).append("\t");
-                    output.append(rs.getDouble("total_earnings")).append("\n");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error retrieving total pay by division.", e);
-        }
-        return output;
-    }
-    
+    try (PreparedStatement pstmt = conn.prepareStatement(updateSalaryQuery)) {
+        pstmt.setDouble(1, increaseFactor);  // Set the increase factor (e.g., 1.032 for 3.2%)
+        pstmt.setDouble(2, minSalary);       // Set the minimum salary limit (e.g., 58000)
+        pstmt.setDouble(3, maxSalary);       // Set the maximum salary limit (e.g., 105000)
 
-    public static void updateEmployeeSalaryByRange(double percentageIncrease, double minSalary, double maxSalary, Connection conn) throws SQLException {
-        // Calculate the increase factor (e.g., 3.2% -> 1.032)
-        double increaseFactor = 1 + (percentageIncrease / 100);
-    
-        String updateSalaryQuery = "UPDATE employees SET Salary = Salary * ? WHERE Salary >= ? AND Salary < ?";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(updateSalaryQuery)) {
-            pstmt.setDouble(1, increaseFactor);  // Set the increase factor (e.g., 1.032 for 3.2%)
-            pstmt.setDouble(2, minSalary);       // Set the minimum salary limit (e.g., 58000)
-            pstmt.setDouble(3, maxSalary);       // Set the maximum salary limit (e.g., 105000)
-    
-            int rowsAffected = pstmt.executeUpdate();
-            System.out.println(rowsAffected + " employee(s) salary updated.");
+        int rowsAffected = pstmt.executeUpdate();
+        System.out.println(rowsAffected + " employee(s) salary updated.");
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Error updating employee salaries.", e);
+    }
+}
+
+// Get the total salary by job title
+public static double getJobTitlePay(Connection conn, String jobTitle) throws SQLException {
+    double totalSalary = 0;
+    String query = "SELECT SUM(e.salary) FROM employees e WHERE e.jobTitle = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, jobTitle);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                totalSalary = rs.getDouble(1);  // Retrieve the total salary for the job title
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Error retrieving total salary by job title.", e);
+    }
+    return totalSalary;
+}
+
+// Get the total salary by division
+public static double getDivisionPay(Connection conn, String division) throws SQLException {
+    double totalSalary = 0;
+    String query = "SELECT SUM(e.salary) FROM employees e WHERE e.division = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, division);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                totalSalary = rs.getDouble(1);  // Retrieve the total salary for the division
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Error retrieving total salary by division.", e);
+    }
+    return totalSalary;
+}
+
+// Get Payroll information for an employee by empID
+public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws SQLException {
+    Payroll payroll = null;
+    String query = "SELECT * FROM payroll WHERE empID = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, empID);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                payroll = new Payroll(
+                    rs.getInt("empID"),
+                    rs.getInt("payDate"),
+                    rs.getInt("gross"),
+                    rs.getInt("federal"),
+                    rs.getInt("fedMed"),
+                    rs.getInt("fedSS"),
+                    rs.getInt("state"),
+                    rs.getInt("emp401K"),
+                    rs.getInt("healthCare")
+                );
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Error retrieving payroll information.", e);
+    }
+    return payroll;
+}
+
+//get all the employee payroll infor default for payroll page
+public static ObservableList<Payroll> getAllPayrolls() throws SQLException {
+    ObservableList<Payroll> payrolls = FXCollections.observableArrayList();
+    String query = "SELECT * FROM payroll p " +
+                   "LEFT JOIN employees e ON p.empID = e.empID;";  // Joins with employees table to get employee details if necessary
+
+    try (Connection conn = DatabaseService.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(query)) {
+
+        while (rs.next()) {
+            int _empID = rs.getInt("empID");
+            int _payDate = rs.getInt("payDate");
+            int _gross = rs.getInt("gross");
+            int _federal = rs.getInt("federal");
+            int _fedMed = rs.getInt("fedMed");
+            int _fedSS = rs.getInt("fedSS");
+            int _state = rs.getInt("state");
+            int _emp401K = rs.getInt("emp401K");
+            int _healthCare = rs.getInt("healthCare");
+
+            // Create Payroll object using data from ResultSet
+            Payroll payroll = new Payroll(_empID, _payDate, _gross, _federal, _fedMed, _fedSS, _state, _emp401K, _healthCare);
             
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error updating employee salaries.", e);
+            payrolls.add(payroll);
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
-  
+    return payrolls;
+}
+
     /*
       * Searches for a single employee by SSN.
       * This method returns an Employee object if an employee with the specified SSN is found.
