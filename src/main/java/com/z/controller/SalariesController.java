@@ -2,13 +2,17 @@ package com.z.controller;
 
 import com.z.model.Payroll;
 import com.z.model.dao.PayrollDAO;
+import com.z.service.DatabaseService;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.TableView;
@@ -17,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableColumn;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SalariesController {
@@ -46,6 +51,42 @@ public class SalariesController {
     @FXML private Button searchButton;
 
     @FXML
+    private void handleSearch()
+    {
+        String search = searchField.getText().trim();
+
+        // Check if the search field is empty
+        if (search.isEmpty()) {
+            loadPayrollData(); // Reset the table view to show all payroll data
+            return;
+        }
+
+        // Validate that the search input is a valid integer for empID
+        try {
+            int empID = Integer.parseInt(search);
+
+            // Query PayrollDAO to retrieve the payroll information by empID
+            try (Connection conn = DatabaseService.getConnection()) {
+                Payroll payroll = PayrollDAO.getPayrollInfoByEmpID(empID, conn);
+
+                // Display the result in the payroll table
+                if (payroll != null) {
+                    payrollData.clear();  // Clear any existing data
+                    payrollData.add(payroll);  // Add the search result to the data
+                    payrollTable.setItems(payrollData);  // Update the table view
+                } else {
+                    showAlert("No payroll record found for Employee ID: " + empID);
+                    loadPayrollData();  // Reset the table if no record is found
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Employee ID. Please enter a numeric value.");
+        }
+    }
+
+    @FXML
     public void initialize()
     {
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -60,6 +101,8 @@ public class SalariesController {
         employeeState.setCellValueFactory(new PropertyValueFactory<>("state"));
         employee401K.setCellValueFactory(new PropertyValueFactory<>("emp401K"));
         employeeHealthCare.setCellValueFactory(new PropertyValueFactory<>("healthCare"));
+
+        searchButton.setOnAction(event -> handleSearch());
 
         loadPayrollData();
     }
@@ -127,6 +170,17 @@ public class SalariesController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String message)
+    {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 }
 
