@@ -4,11 +4,13 @@ public class Payroll implements IPayroll
 {
     private int empID;
     private double gross, federal, fedMed, fedSS, state, emp401K, healthCare;
-    private String payDate;
+    private String name, email, payDate;
 
-    public Payroll(int _empID, String _payDate, double _gross, 
+    public Payroll(String _name, String _email, int _empID, String _payDate, double _gross, 
                     double _federal, double _fedMed, double _fedSS, double _state, double _emp401K, double _healthCare) 
     {
+        setName(_name);
+        setEmail(_email);
         setEmpID(_empID);
         setPayDate(_payDate);
         setGross(_gross);
@@ -19,6 +21,12 @@ public class Payroll implements IPayroll
         set401K(_emp401K);
         setHealthCare(_healthCare);
     }
+
+    public String getName() { return name; }
+    public void setName(String _name) { name = _name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String _email) { email = _email; }
 
     public int getEmpID() { return empID; }
     public void setEmpID(int _empID) { empID = _empID; }

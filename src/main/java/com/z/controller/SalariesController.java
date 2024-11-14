@@ -26,6 +26,8 @@ public class SalariesController {
     @FXML private Button totalPayButton;
 
     @FXML private TableView<Payroll> payrollTable;
+    @FXML private TableColumn<Payroll, String> employeeName;
+    @FXML private TableColumn<Payroll, String> employeeEmail;
     @FXML private TableColumn<Payroll, Integer> employeeID; 
     @FXML private TableColumn<Payroll, Double> employeePayDate;
     @FXML private TableColumn<Payroll, Double> employeeGross;
@@ -45,6 +47,8 @@ public class SalariesController {
     @FXML
     public void initialize()
     {
+        employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         employeeID.setCellValueFactory(new PropertyValueFactory<>("empID"));
         employeePayDate.setCellValueFactory(new PropertyValueFactory<>("payDate"));
         employeeGross.setCellValueFactory(new PropertyValueFactory<>("gross"));
@@ -123,3 +127,4 @@ public class SalariesController {
         }
     }
 }
+

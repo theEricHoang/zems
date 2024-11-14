@@ -82,9 +82,9 @@
          <children>
             <TableView fx:id="payrollTable" prefHeight="297.0" prefWidth="482.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Name" />
-                  <TableColumn prefWidth="75.0" text="Title" />
-                  <TableColumn prefWidth="75.0" text="Email" />
+                  <TableColumn fx:id="employeeName" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="employeeTitle" prefWidth="75.0" text="Title" />
+                  <TableColumn fx:id="employeeEmail" prefWidth="75.0" text="Email" />
                   <TableColumn fx:id="employeeID" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="employeePayDate" prefWidth="75.0" text="Pay Date" />
                   <TableColumn fx:id="employeeGross" prefWidth="75.0" text="Gross" />

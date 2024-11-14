@@ -1,6 +1,13 @@
 package com.z.model;
 
 public interface IPayroll {
+
+    public String getName();
+    public void setName(String _name);
+
+    public String getEmail();
+    public void setEmail(String _email);
+
     public int getEmpID();
     public void setEmpID(int _empID);
 
