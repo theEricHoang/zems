@@ -18,7 +18,7 @@ public class Payroll implements IPayroll
         setFedMed(_fedMed);
         setFedSS(_fedSS);
         setState(_state);
-        set401K(_emp401K);
+        setEmp401K(_emp401K);
         setHealthCare(_healthCare);
     }
 
@@ -49,8 +49,8 @@ public class Payroll implements IPayroll
     public double getState() { return state; }
     public void setState(double _state) { state = _state; }
 
-    public double get401K() { return emp401K; }
-    public void set401K(double _emp401K) { emp401K = _emp401K; }
+    public double getEmp401K() { return emp401K; }
+    public void setEmp401K(double _emp401K) { emp401K = _emp401K; }
 
     public double getHealthCare() { return healthCare; }
     public void setHealthCare(double _healthCare) { healthCare = _healthCare; }

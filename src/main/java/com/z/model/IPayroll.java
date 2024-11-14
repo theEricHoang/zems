@@ -29,8 +29,8 @@ public interface IPayroll {
     public double getState();
     public void setState(double _state);
 
-    public double get401K();
-    public void set401K(double _emp401K);
+    public double getEmp401K();
+    public void setEmp401K(double _emp401K);
 
     public double getHealthCare();
     public void setHealthCare(double _healthCare);
