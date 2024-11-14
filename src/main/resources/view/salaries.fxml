@@ -80,20 +80,20 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="defaultTable" prefHeight="297.0" prefWidth="482.0">
+            <TableView fx:id="payrollTable" prefHeight="297.0" prefWidth="482.0">
                <columns>
                   <TableColumn prefWidth="75.0" text="Name" />
                   <TableColumn prefWidth="75.0" text="Title" />
                   <TableColumn prefWidth="75.0" text="Email" />
-                  <TableColumn prefWidth="75.0" text="ID" />
-                  <TableColumn prefWidth="75.0" text="Pay Date" />
-                  <TableColumn prefWidth="75.0" text="Gross" />
-                  <TableColumn prefWidth="75.0" text="Federal" />
-                  <TableColumn prefWidth="75.0" text="FedMed" />
-                  <TableColumn prefWidth="75.0" text="FedSS" />
-                  <TableColumn prefWidth="75.0" text="State" />
-                  <TableColumn prefWidth="75.0" text="401k" />
-                  <TableColumn prefWidth="75.0" text="Healthcare" />
+                  <TableColumn fx:id="employeeID" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="employeePayDate" prefWidth="75.0" text="Pay Date" />
+                  <TableColumn fx:id="employeeGross" prefWidth="75.0" text="Gross" />
+                  <TableColumn fx:id="employeeFederal" prefWidth="75.0" text="Federal" />
+                  <TableColumn fx:id="employeeFedMed" prefWidth="75.0" text="FedMed" />
+                  <TableColumn fx:id="employeeFedSS" prefWidth="75.0" text="FedSS" />
+                  <TableColumn fx:id="employeeState" prefWidth="75.0" text="State" />
+                  <TableColumn fx:id="employee401K" prefWidth="75.0" text="401k" />
+                  <TableColumn fx:id="employeeHealthCare" prefWidth="75.0" text="Healthcare" />
                   <TableColumn prefWidth="75.0" text="Edit" />
                   <TableColumn prefWidth="75.0" text="Delete" />
                </columns>

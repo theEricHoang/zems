@@ -1,26 +1,73 @@
 package com.z.controller;
 
-import java.io.IOException;
+import com.z.model.Payroll;
+import com.z.model.dao.PayrollDAO;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableColumn;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class SalariesController {
-    @FXML
-    private Button menuButton;
+    @FXML private Button menuButton;
+    @FXML private Button employeesButton;
+    @FXML private Button updateSalariesButton;
+    @FXML private Button totalPayButton;
+
+    @FXML private TableView<Payroll> payrollTable;
+    @FXML private TableColumn<Payroll, Integer> employeeID; 
+    @FXML private TableColumn<Payroll, Double> employeePayDate;
+    @FXML private TableColumn<Payroll, Double> employeeGross;
+    @FXML private TableColumn<Payroll, Double> employeeFederal;
+    @FXML private TableColumn<Payroll, Double> employeeFedMed;
+    @FXML private TableColumn<Payroll, Double> employeeFedSS;
+    @FXML private TableColumn<Payroll, Double> employeeState;
+    @FXML private TableColumn<Payroll, Double> employee401K;
+    @FXML private TableColumn<Payroll, Double> employeeHealthCare;
+    @FXML private TableColumn<Payroll, Void> editButtons;
+    @FXML private TableColumn<Payroll, Void> deleteButtons;
+    private ObservableList<Payroll> payrollData = FXCollections.observableArrayList();
+
+    @FXML private TextField searchField;
+    @FXML private Button searchButton;
 
     @FXML
-    private Button employeesButton;
+    public void initialize()
+    {
+        employeeID.setCellValueFactory(new PropertyValueFactory<>("empID"));
+        employeePayDate.setCellValueFactory(new PropertyValueFactory<>("payDate"));
+        employeeGross.setCellValueFactory(new PropertyValueFactory<>("gross"));
+        employeeFederal.setCellValueFactory(new PropertyValueFactory<>("federal"));
+        employeeFedMed.setCellValueFactory(new PropertyValueFactory<>("fedMed"));
+        employeeFedSS.setCellValueFactory(new PropertyValueFactory<>("fedSS"));
+        employeeState.setCellValueFactory(new PropertyValueFactory<>("state"));
+        employee401K.setCellValueFactory(new PropertyValueFactory<>("emp401K"));
+        employeeHealthCare.setCellValueFactory(new PropertyValueFactory<>("healthCare"));
 
-    @FXML
-    private Button updateSalariesButton;
+        loadPayrollData();
+    }
 
-    @FXML
-    private Button totalPayButton;
+    private void loadPayrollData() {
+        payrollData.clear();
+
+        try {
+            payrollData = PayrollDAO.getAllPayrolls();
+            payrollTable.setItems(payrollData);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void switchToUpdateSalaries()

@@ -85,7 +85,7 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
             if (rs.next()) {
                 payroll = new Payroll(
                     rs.getInt("empID"),
-                    rs.getInt("payDate"),
+                    rs.getString("payDate"),
                     rs.getInt("gross"),
                     rs.getInt("federal"),
                     rs.getInt("fedMed"),
@@ -107,22 +107,23 @@ public static Payroll getPayrollInfoByEmpID(int empID, Connection conn) throws S
 public static ObservableList<Payroll> getAllPayrolls() throws SQLException {
     ObservableList<Payroll> payrolls = FXCollections.observableArrayList();
     String query = "SELECT * FROM payroll p " +
-                   "LEFT JOIN employees e ON p.empID = e.empID;";  // Joins with employees table to get employee details if necessary
+                    "LEFT JOIN employees e ON p.empID = e.empID;";  // Joins with employees table to get employee details if necessary
+ 
 
     try (Connection conn = DatabaseService.getConnection();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(query)) {
 
         while (rs.next()) {
-            int _empID = rs.getInt("empID");
-            int _payDate = rs.getInt("payDate");
-            int _gross = rs.getInt("gross");
-            int _federal = rs.getInt("federal");
-            int _fedMed = rs.getInt("fedMed");
-            int _fedSS = rs.getInt("fedSS");
-            int _state = rs.getInt("state");
-            int _emp401K = rs.getInt("emp401K");
-            int _healthCare = rs.getInt("healthCare");
+            int _empID = rs.getInt("empid");
+            String _payDate = rs.getString("pay_date");
+            double _gross = rs.getDouble("earnings");
+            double _federal = rs.getDouble("fed_tax");
+            double _fedMed = rs.getDouble("fed_med");
+            double _fedSS = rs.getDouble("fed_SS");
+            double _state = rs.getDouble("state_tax");
+            double _emp401K = rs.getDouble("retire_401k");
+            double _healthCare = rs.getDouble("health_care");
 
             // Create Payroll object using data from ResultSet
             Payroll payroll = new Payroll(_empID, _payDate, _gross, _federal, _fedMed, _fedSS, _state, _emp401K, _healthCare);
