@@ -1,6 +1,6 @@
 package com.z.controller;
 
-import com.z.model.TotalPaybyDivision;
+import com.z.model.TotalPayByDivision;
 import com.z.model.TotalPayByTitle;
 import com.z.model.dao.PayrollDAO;
 import com.z.service.DatabaseService;
@@ -28,22 +28,22 @@ public class TotalPayController {
     @FXML private Button divisionButton;
     @FXML private Button titleButton;
 
-    @FXML private TableView<TotalPaybyDivision> divisionTable;
-    @FXML private TableColumn<TotalPaybyDivision, String> employeeDivision;
-    @FXML private TableColumn<TotalPaybyDivision, Double> employeeDivisionTotalPay;
+    @FXML private TableView<TotalPayByDivision> divisionTable;
+    @FXML private TableColumn<TotalPayByDivision, String> employeeDivision;
+    @FXML private TableColumn<TotalPayByDivision, Double> employeeDivisionTotalPay;
 
-    @FXML private TableView<TotalPaybyTitle> titleTable;
+    @FXML private TableView<TotalPayByTitle> titleTable;
     @FXML private TableColumn<TotalPayByTitle, String> employeeTitle;
     @FXML private TableColumn<TotalPayByTitle, Double> employeeTitleTotalPay;
 
-    private ObservableList<TotalPaybyDivision> divisionData = FXCollections.observableArrayList();
-    private ObservableList<TotalPaybyTitle> titleData = FXCollections.observableArrayList();
+    private ObservableList<TotalPayByDivision> divisionData = FXCollections.observableArrayList();
+    private ObservableList<TotalPayByTitle> titleData = FXCollections.observableArrayList();
 
     @FXML
     private void initialize()
     {
         // Populating columns for total pay by month by division
-        employeeDivision.SetCellValueFactory(new PropertyValueFactory<>("division"));
+        employeeDivision.setCellValueFactory(new PropertyValueFactory<>("division"));
         employeeDivisionTotalPay.setCellValueFactory(new PropertyValueFactory<>("totalPay"));
 
         // Populating columns for total pay by month by job titles
@@ -54,10 +54,12 @@ public class TotalPayController {
         loadTitleData();
     }
 
-    private void loadDivisionPayData() 
+    private void loadDivisionData() 
     {
+        divisionData.clear();
+
         try (Connection conn = DatabaseService.getConnection()) {
-            ObservableList<TotalPaybyDivision> divisionData = FXCollections.observableArrayList(payrollDAO.getDivisionPay(conn));
+            divisionData = FXCollections.observableArrayList(PayrollDAO.getDivisionPay(conn));
             divisionTable.setItems(divisionData);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,10 +67,12 @@ public class TotalPayController {
         }
     }
 
-    private void loadTitlePayData() 
+    private void loadTitleData() 
     {
+        titleData.clear();
+        
         try (Connection conn = DatabaseService.getConnection()) {
-            ObservableList<TotalPaybyTitle> titleData = FXCollections.observableArrayList(payrollDAO.getJobTitlePay(conn));
+            titleData = FXCollections.observableArrayList(PayrollDAO.getJobTitlePay(conn));
             titleTable.setItems(titleData);
         } catch (SQLException e) {
             e.printStackTrace();
