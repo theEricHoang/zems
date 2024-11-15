@@ -83,14 +83,14 @@
          <children>
             <TableView fx:id="divisionTable" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Division" />
-                  <TableColumn prefWidth="75.0" text="Total Pay" />
+                  <TableColumn fx:id="employeeDivision" prefWidth="75.0" text="Division" />
+                  <TableColumn fx:id="employeeDivisionTotalPay" prefWidth="75.0" text="Total Pay" />
                </columns>
             </TableView>
             <TableView fx:id="titleTable" prefHeight="200.0" prefWidth="200.0" visible="false">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Title" />
-                  <TableColumn prefWidth="75.0" text="Total Pay" />
+                  <TableColumn fx:id="employeeTitle" prefWidth="75.0" text="Title" />
+                  <TableColumn fx:id="employeeTitleTotalPay" prefWidth="75.0" text="Total Pay" />
                </columns>
             </TableView>
          </children>
