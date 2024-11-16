@@ -1,6 +1,11 @@
 package com.z.controller;
 
 import com.z.service.Validation;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import com.z.model.Address;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
 import com.z.service.DatabaseService;
@@ -21,26 +26,27 @@ public class AddEmployeeController {
     @FXML private TextField lNameField;
     @FXML private TextField emailField;
     @FXML private ChoiceBox<String> divChoice;
-    @FXML private TextField jobTitleField;
+    @FXML private ChoiceBox<String> jobTitleChoice;
     @FXML private TextField ssnField;
     @FXML private TextField salaryField;
     @FXML private TextField hireDateField;
+    @FXML private TextField raceField;
     @FXML private TextField genderField;
     @FXML private TextField pronounsField;
     @FXML private TextField dobField;
     @FXML private TextField phoneNumberField;
     @FXML private TextField streetField;
-    @FXML private TextField cityField;
+    @FXML private ChoiceBox<String> cityChoice;
     @FXML private ChoiceBox<String> stateChoice;
 
     @FXML
     public void initialize()
     {
         divChoice.getItems().addAll("Technology Engineering", "Marketing", "Human Resources", "HQ");
-        stateChoice.getItems().addAll("AL", "AK", "AZ", "AR", "AS", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL",
-                                      "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
-                                      "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX",
-                                      "UT", "VT", "VA", "WA", "WV", "WI", "WY");
+        jobTitleChoice.getItems().addAll("software manager", "software architect", "software engineer", "software developer", "marketing manager",
+                                        "marketing associate", "marketing assistant", "Chief Exec. Officer", "Chief Finn. Officer", "Chief Info. Officer");
+        stateChoice.getItems().addAll("GA", "NY");
+        cityChoice.getItems().addAll("Atlanta", "New York");
     }
 
     @FXML
@@ -50,18 +56,22 @@ public class AddEmployeeController {
         String _lName = lNameField.getText();
         String _email = emailField.getText();
         String _division = divChoice.getValue();
-        String _jobTitle = jobTitleField.getText();
+        String _jobTitle = jobTitleChoice.getValue();
         String _ssn = ssnField.getText();
         double _salary = 0;
         String _hireDate = hireDateField.getText();
+        String _race = raceField.getText();
         String _gender = genderField.getText();
         String _pronouns = pronounsField.getText();
         String _dob = dobField.getText();
         String _phoneNumber = phoneNumberField.getText();
         String _street = streetField.getText();
-        String _city = cityField.getText();
+        String _city = cityChoice.getValue();
         String _state = stateChoice.getValue();
         
+        /*
+         * VALIDATION CHECKS
+         */
         if (!Validation.isValidSSN(_ssn) || !Validation.isValidDate(_hireDate) || !Validation.isValidEmail(_email)) {
             showAlert("Please enter valid SSN, hire date, and email.");
             return;
@@ -74,6 +84,23 @@ public class AddEmployeeController {
             return;
         }
 
+        if (!Validation.validateGender(_gender) || !Validation.validatePronouns(_pronouns)) {
+            showAlert("Invalid gender or pronouns.");
+            return;
+        }
+        if (!Validation.validateRace(_race)) {
+            showAlert("Invalid race.");
+            return;
+        }
+        if (!Validation.validateDOB(_dob)) {
+            showAlert("Date of birth must be in the past.");
+            return;
+        }
+        if (!Validation.validatePhone(_phoneNumber)) {
+            showAlert("Invalid phone number format. Use XXX-XXX-XXXX.");
+            return;
+        }
+
         if (_fName.isEmpty() ||
             _lName.isEmpty() ||
             _email.isEmpty() ||
@@ -82,6 +109,7 @@ public class AddEmployeeController {
             _ssn.isEmpty() ||
             _salary == 0 ||
             _hireDate.isEmpty() ||
+            _race.isEmpty() ||
             _gender.isEmpty() ||
             _pronouns.isEmpty() ||
             _dob.isEmpty() ||
@@ -94,11 +122,21 @@ public class AddEmployeeController {
             return;
         }
 
+        /*
+         * Data preprocessing
+         */
         int _divID = DatabaseService.fetchDivisionID(_division);
+        int _cityID = DatabaseService.fetchCityID(_city);
+        int _stateID = DatabaseService.fetchStateID(_state);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate _dateOfBirth = LocalDate.parse(_dob, dateFormat);
 
-        Employee employee = new Employee(true, _divID, _fName, _lName, _email, _ssn, _hireDate, _division, _jobTitle, _salary);
+        Employee employee = new Employee(true, _divID, _fName, _lName, _email, _ssn, _hireDate, _division, _jobTitle, _salary, null);
+        Address address = new Address(employee.getEmpID(), _gender, _pronouns, _race, _dateOfBirth, _phoneNumber, _cityID, _stateID);
+        employee.setAddress(address);
+        
         try {
-            if (EmployeeDAO.addEmployee(employee) /* TODO: handle address and demographic info */) {
+            if (EmployeeDAO.addEmployee(employee)) {
                 showAlert("Employee added successfully!");
             } else {
                 showAlert("Error adding employee. Please try again.");

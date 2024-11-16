@@ -10,13 +10,17 @@ package com.z.controller;
 import com.z.App;
 import com.z.model.Employee;
 import com.z.model.dao.EmployeeDAO;
+import com.z.service.DatabaseService;
 import com.z.service.Validation;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,11 +32,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class EmployeesController {
     /*
@@ -57,6 +63,15 @@ public class EmployeesController {
     @FXML private TableColumn<Employee, String> employeeSSNs;
     @FXML private TableColumn<Employee, String> employeeHireDates;
     @FXML private TableColumn<Employee, Double> employeeSalaries;
+
+    @FXML private TableColumn<Employee, String> employeeCities;
+    @FXML private TableColumn<Employee, String> employeeStates;
+    @FXML private TableColumn<Employee, String> employeeGenders;
+    @FXML private TableColumn<Employee, String> employeePronouns;
+    @FXML private TableColumn<Employee, String> employeeRaces;
+    @FXML private TableColumn<Employee, LocalDate> employeeDobs;
+    @FXML private TableColumn<Employee, String> employeePhones;
+    
     @FXML private TableColumn<Employee, Void> editButtons;
     @FXML private TableColumn<Employee, Void> deleteButtons;
     private ObservableList<Employee> employeeData = FXCollections.observableArrayList();
@@ -98,6 +113,14 @@ public class EmployeesController {
         employeeSSNs.setCellValueFactory(new PropertyValueFactory<>("SSN"));
         employeeHireDates.setCellValueFactory(new PropertyValueFactory<>("hireDate"));
         employeeSalaries.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        employeeCities.setCellValueFactory(cellData -> new SimpleStringProperty(DatabaseService.fetchCity(cellData.getValue().getAddress().getCityID())));
+        employeeStates.setCellValueFactory(cellData -> new SimpleStringProperty(DatabaseService.fetchState(cellData.getValue().getAddress().getStateID())));
+        employeeGenders.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress().getGender()));
+        employeePronouns.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress().getPronouns()));
+        employeeRaces.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress().getRace()));
+        employeeDobs.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAddress().getDob()));
+        employeePhones.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress().getPhone()));
 
         searchChoice.getItems().addAll("ID", "Name", "SSN");
 
@@ -215,20 +238,23 @@ public class EmployeesController {
     private void addEditButtons() {
         editButtons.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
-            {
-                editButton.setOnAction(event -> {
-                    Employee employee = getTableView().getItems().get(getIndex());
-                    handleEdit(employee);
-                });
-            }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
+                    setText(null);
                 } else {
-                    setGraphic(editButton);
+                    editButton.setOnAction(event -> {
+                        Employee employee = getTableView().getItems().get(getIndex());
+                        handleEdit(employee);
+                    });
+
+                    HBox hBox = new HBox(editButton);
+                    hBox.setAlignment(Pos.CENTER);
+                    setGraphic(hBox);
+                    setText(null);
                 }
             }
         });
@@ -237,32 +263,36 @@ public class EmployeesController {
     private void addDeleteButtons() {
         deleteButtons.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
-            {
-                deleteButton.setOnAction(event -> {
-                    Employee employee = getTableView().getItems().get(getIndex());
-                    handleDelete(employee);
-                });
-            }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
+                    setText(null);
                 } else {
-                    setGraphic(deleteButton);
+                    deleteButton.setOnAction(event -> {
+                        Employee employee = getTableView().getItems().get(getIndex());
+                        handleDelete(employee);
+                    });
+
+                    HBox hBox = new HBox(deleteButton);
+                    hBox.setAlignment(Pos.CENTER);
+                    setGraphic(hBox);
+                    setText(null);
                 }
             }
         });
     }
 
-    private void handleEdit(Employee employee) {
+    private void handleEdit(Employee employee/* , Address address*/) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/edit_employee.fxml"));
             Parent root = loader.load();
 
             EditEmployeeController editController = loader.getController();
             editController.setEmployee(employee);
+            //editController.setAddress(address);
 
             Stage stage = new Stage();
             stage.setTitle("Edit Employee");

@@ -11,9 +11,10 @@ public class Employee implements IEmployee
     private int empID, divID;
     private String fName, lName, ssn, division, jobTitle, email, hireDate;
     private double salary;
+    private Address address;
 
     public Employee(boolean _newEmployee, int _divisionID, String _fName, String _lName, String _email, String _ssn,
-                    String _hireDate, String _division, String _jobTitle, double _salary)
+                    String _hireDate, String _division, String _jobTitle, double _salary, Address _address)
     {
         if (_newEmployee) { initEmpID(); }
         setDivID(_divisionID);
@@ -25,6 +26,7 @@ public class Employee implements IEmployee
         setDivision(_division);
         setJobTitle(_jobTitle);
         setSalary(_salary);
+        setAddress(_address);
     }
 
     public static void setInitialIDCounter(int _initialID) { idCounter = _initialID; }
@@ -59,4 +61,7 @@ public class Employee implements IEmployee
 
     public String getHireDate() { return hireDate; }
     public void setHireDate(String _hireDate) { hireDate = _hireDate; }
+
+    public Address getAddress() { return address; }
+    public void setAddress(Address _address) { address = _address;}
 }
