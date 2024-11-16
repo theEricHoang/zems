@@ -15,12 +15,13 @@
    <top>
       <HBox prefHeight="21.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="26.0" prefWidth="169.0" promptText="Search Month and Year....">
+            <TextField fx:id="monthField" prefHeight="26.0" prefWidth="169.0" promptText="Enter Month...">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Search" />
+            <TextField fx:id="yearField" prefHeight="26.0" prefWidth="169.0" promptText="Enter Year..." />
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
          </children>
          <BorderPane.margin>
             <Insets bottom="15.0" top="15.0" />
@@ -89,7 +90,7 @@
             </TableView>
             <TableView fx:id="titleTable" prefHeight="200.0" prefWidth="200.0" visible="false">
                <columns>
-                  <TableColumn fx:id="employeeTitle" prefWidth="75.0" text="Title" />
+                  <TableColumn fx:id="employeeTitle" prefWidth="75.0" text="Job Title" />
                   <TableColumn fx:id="employeeTitleTotalPay" prefWidth="75.0" text="Total Pay" />
                </columns>
             </TableView>

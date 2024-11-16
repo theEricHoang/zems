@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.z.model.Payroll;
+import com.z.model.TotalPayByDivision;
+import com.z.model.TotalPayByTitle;
 import com.z.service.DatabaseService;
 
 import javafx.collections.FXCollections;
@@ -37,41 +39,59 @@ public static void updateEmployeeSalaryByRange(double percentageIncrease, double
 }
 
 // Get the total salary by job title
-public static double getJobTitlePay(Connection conn, String jobTitle) throws SQLException {
-    double totalSalary = 0;
-    String query = "SELECT SUM(e.salary) FROM employees e WHERE e.jobTitle = ?";
+public static ObservableList<TotalPayByTitle> getJobTitlePay(Connection conn, String month, String year) throws SQLException {
+    ObservableList<TotalPayByTitle> titlePayList = FXCollections.observableArrayList();
+    String query = "SELECT jt.job_title, SUM(e.salary) AS total_pay " +
+                   "FROM employees e " +
+                   "JOIN employee_job_titles ejt ON ejt.empid = e.empid " +
+                   "JOIN job_titles jt ON jt.job_title_id = ejt.job_title_id " +
+                   "JOIN payroll p on p.empid = e.empid " +
+                   "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? " +
+                   "GROUP BY jt.job_title";
 
     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setString(1, jobTitle);
+        pstmt.setString(1, month);
+        pstmt.setString(2, year);
         try (ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next()) {
-                totalSalary = rs.getDouble(1);  // Retrieve the total salary for the job title
+            while (rs.next()) {
+                String title = rs.getString("job_title");
+                Double totalPay = rs.getDouble("total_pay");
+                titlePayList.add(new TotalPayByTitle(month, year, title, totalPay));
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
         throw new SQLException("Error retrieving total salary by job title.", e);
     }
-    return totalSalary;
+    return titlePayList;
 }
 
 // Get the total salary by division
-public static double getDivisionPay(Connection conn, String division) throws SQLException {
-    double totalSalary = 0;
-    String query = "SELECT SUM(e.salary) FROM employees e WHERE e.division = ?";
+public static ObservableList<TotalPayByDivision> getDivisionPay(Connection conn, String month, String year) throws SQLException {
+    ObservableList<TotalPayByDivision> divisionPayList = FXCollections.observableArrayList();
+    String query = "SELECT d.Name AS division, SUM(e.salary) AS total_pay "
+                    + "FROM employees e "
+                    + "JOIN employee_division ed ON ed.empid = e.empid "
+                    + "JOIN division d ON d.ID = ed.div_ID "
+                    + "JOIN payroll p ON p.empid = e.empid "
+                    + "WHERE MONTH(p.pay_date) = ? AND YEAR(p.pay_date) = ? "
+                    + "GROUP BY d.Name";
 
     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setString(1, division);
+        pstmt.setString(1, month);
+        pstmt.setString(2, year);
         try (ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next()) {
-                totalSalary = rs.getDouble(1);  // Retrieve the total salary for the division
+            while (rs.next()) {
+                String division = rs.getString("division");
+                Double totalPay = rs.getDouble("total_pay");
+                divisionPayList.add(new TotalPayByDivision(month, year, division, totalPay));
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
         throw new SQLException("Error retrieving total salary by division.", e);
     }
-    return totalSalary;
+    return divisionPayList;
 }
 
 // Get Payroll information for an employee by empID

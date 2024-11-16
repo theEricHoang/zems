@@ -43,8 +43,6 @@ public class SalariesController {
     @FXML private TableColumn<Payroll, Double> employeeState;
     @FXML private TableColumn<Payroll, Double> employee401K;
     @FXML private TableColumn<Payroll, Double> employeeHealthCare;
-    @FXML private TableColumn<Payroll, Void> editButtons;
-    @FXML private TableColumn<Payroll, Void> deleteButtons;
     private ObservableList<Payroll> payrollData = FXCollections.observableArrayList();
 
     @FXML private TextField searchField;

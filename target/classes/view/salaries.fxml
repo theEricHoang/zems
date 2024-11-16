@@ -94,8 +94,6 @@
                   <TableColumn fx:id="employeeState" prefWidth="75.0" text="State" />
                   <TableColumn fx:id="employee401K" prefWidth="75.0" text="401k" />
                   <TableColumn fx:id="employeeHealthCare" prefWidth="75.0" text="Healthcare" />
-                  <TableColumn prefWidth="75.0" text="Edit" />
-                  <TableColumn prefWidth="75.0" text="Delete" />
                </columns>
             </TableView>
          </children>

@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +28,10 @@ public class TotalPayController {
     @FXML private Button salariesButton;
     @FXML private Button divisionButton;
     @FXML private Button titleButton;
+    @FXML private Button searchButton;
+
+    @FXML private TextField monthField;
+    @FXML private TextField yearField;
 
     @FXML private TableView<TotalPayByDivision> divisionTable;
     @FXML private TableColumn<TotalPayByDivision, String> employeeDivision;
@@ -50,16 +55,16 @@ public class TotalPayController {
         employeeTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         employeeTitleTotalPay.setCellValueFactory(new PropertyValueFactory<>("totalPay"));
 
-        loadDivisionData();
-        loadTitleData();
+        loadDivisionData("", "");
+        loadTitleData("", "");
     }
 
-    private void loadDivisionData() 
+    private void loadDivisionData(String month, String year) 
     {
         divisionData.clear();
 
         try (Connection conn = DatabaseService.getConnection()) {
-            divisionData = FXCollections.observableArrayList(PayrollDAO.getDivisionPay(conn));
+            divisionData = FXCollections.observableArrayList(PayrollDAO.getDivisionPay(conn, month, year));
             divisionTable.setItems(divisionData);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,16 +72,32 @@ public class TotalPayController {
         }
     }
 
-    private void loadTitleData() 
+    private void loadTitleData(String month, String year) 
     {
         titleData.clear();
         
         try (Connection conn = DatabaseService.getConnection()) {
-            titleData = FXCollections.observableArrayList(PayrollDAO.getJobTitlePay(conn));
+            titleData = FXCollections.observableArrayList(PayrollDAO.getJobTitlePay(conn, month, year));
             titleTable.setItems(titleData);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error loading title pay data.");
+        }
+    }
+
+    @FXML
+    private void handleSearch()
+    {
+        String month = monthField.getText().trim();
+        String year = yearField.getText().trim();
+
+        if (month.isEmpty() || year.isEmpty())
+        {
+            loadDivisionData("", "");
+            loadTitleData("", "");
+        } else {
+            loadDivisionData(month, year);
+            loadTitleData(month, year);
         }
     }
 
