@@ -90,4 +90,76 @@ public class DatabaseService {
         }
         return titleID;
     }
+
+    public static int fetchCityID(String city)
+    {
+        int cityID = 1; // default value
+        String query = "SELECT id FROM city WHERE city_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, city);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                cityID = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cityID;
+    }
+
+    public static int fetchStateID(String state)
+    {
+        int stateID = 1; // default value
+        String query = "SELECT id FROM state WHERE state_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, state);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                stateID = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stateID;
+    }
+
+    public static String fetchCity(int cityID)
+    {
+        String city = "Atlanta"; //default value
+        String query = "SELECT city_name FROM city WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, cityID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                city = rs.getString("city_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return city;
+    }
+
+    public static String fetchState(int stateID)
+    {
+        String state = "GA"; //default value
+        String query = "SELECT state_name FROM state WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, stateID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                state = rs.getString("state_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return state;
+    }
 }

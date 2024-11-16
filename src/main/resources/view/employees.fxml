@@ -38,6 +38,13 @@
             <TableColumn fx:id="employeeSSNs" prefWidth="75.0" text="SSN" />
             <TableColumn fx:id="employeeHireDates" prefWidth="75.0" text="Hire Date" />
             <TableColumn fx:id="employeeSalaries" prefWidth="75.0" text="Salary" />
+            <TableColumn fx:id="employeeCities" prefWidth="75.0" text="City" />
+            <TableColumn fx:id="employeeStates" prefWidth="75.0" text="State" />
+            <TableColumn fx:id="employeeGenders" prefWidth="75.0" text="Gender" />
+            <TableColumn fx:id="employeePronouns" prefWidth="75.0" text="Pronouns" />
+            <TableColumn fx:id="employeeRaces" prefWidth="75.0" text="Race" />
+            <TableColumn fx:id="employeeDobs" prefWidth="75.0" text="DOB" />
+            <TableColumn fx:id="employeePhones" prefWidth="75.0" text="Phone" />
             <TableColumn fx:id="editButtons" prefWidth="75.0" text="Edit" />
             <TableColumn fx:id="deleteButtons" prefWidth="75.0" text="Delete" />
         </columns>

@@ -31,4 +31,7 @@ public interface IEmployee {
 
     public String getHireDate();
     public void setHireDate(String _hireDate);
+
+    public Address getAddress();
+    public void setAddress(Address _address);
 }
