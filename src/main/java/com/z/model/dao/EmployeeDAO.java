@@ -136,17 +136,17 @@ public class EmployeeDAO {
                  PreparedStatement pstmtDivision = conn.prepareStatement(deleteDivisionQuery);
                  PreparedStatement pstmtTitle = conn.prepareStatement(deleteTitleQuery);
                  PreparedStatement pstmtAddress = conn.prepareStatement(deleteAddressQuery)) {
-                pstmtEmployee.setInt(1, empID);
-                pstmtEmployee.executeUpdate();
+                pstmtAddress.setInt(1, empID);
+                pstmtAddress.executeUpdate();
+                
+                pstmtTitle.setInt(1, empID);
+                pstmtTitle.executeUpdate();
 
                 pstmtDivision.setInt(1, empID);
                 pstmtDivision.executeUpdate();
 
-                pstmtTitle.setInt(1, empID);
-                pstmtTitle.executeUpdate();
-
-                pstmtAddress.setInt(1, empID);
-                pstmtAddress.executeUpdate();
+                pstmtEmployee.setInt(1, empID);
+                pstmtEmployee.executeUpdate();
 
                 conn.commit();
             } catch (SQLException e) {
