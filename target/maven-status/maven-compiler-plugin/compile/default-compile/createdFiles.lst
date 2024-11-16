@@ -6,7 +6,6 @@ com/z/App.class
 com/z/controller/AddEmployeeController.class
 module-info.class
 com/z/controller/TotalPayController.class
-com/z/model/dao/AddressDAO.class
 com/z/controller/EditEmployeeController.class
 com/z/model/Payroll.class
 com/z/model/Address.class
