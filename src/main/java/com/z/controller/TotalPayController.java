@@ -12,12 +12,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.time.Month;
+import java.util.Arrays;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,8 +32,7 @@ public class TotalPayController {
     @FXML private Button titleButton;
     @FXML private Button searchButton;
 
-    @FXML private TextField monthField;
-    @FXML private TextField yearField;
+    @FXML private ComboBox<String> monthComboBox;
 
     @FXML private TableView<TotalPayByDivision> divisionTable;
     @FXML private TableColumn<TotalPayByDivision, String> employeeDivision;
@@ -47,6 +48,10 @@ public class TotalPayController {
     @FXML
     private void initialize()
     {
+        // Populating ComboBox choices with month names
+        monthComboBox.setItems(FXCollections.observableArrayList(getMonthNames()));
+        monthComboBox.setPromptText("Select Month");
+
         // Populating columns for total pay by month by division
         employeeDivision.setCellValueFactory(new PropertyValueFactory<>("division"));
         employeeDivisionTotalPay.setCellValueFactory(new PropertyValueFactory<>("totalPay"));
@@ -55,16 +60,41 @@ public class TotalPayController {
         employeeTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         employeeTitleTotalPay.setCellValueFactory(new PropertyValueFactory<>("totalPay"));
 
-        loadDivisionData("", "");
-        loadTitleData("", "");
+        loadDivisionData("");
+        loadTitleData("");
     }
 
-    private void loadDivisionData(String month, String year) 
+    /*
+     * Return an array of month names
+     */
+    private String[] getMonthNames()
+    {
+        return Arrays.stream(Month.values())
+                .map(Month::name)
+                .map(String::toLowerCase)
+                .map(name -> name.substring(0, 1).toUpperCase() + name.substring(1))
+                .toArray(String[]::new);
+    }
+    
+    /*
+     * Get the selected month as an integer
+     */
+    private int getSelectedMonth() throws IllegalArgumentException
+    {
+        String selectedMonth = monthComboBox.getValue();
+        if (selectedMonth == null || selectedMonth.isEmpty())
+        {
+            throw new IllegalArgumentException("Please select a month.");
+        }
+        return Month.valueOf(selectedMonth.toUpperCase()).getValue();
+    }
+
+    private void loadDivisionData(String month) 
     {
         divisionData.clear();
 
         try (Connection conn = DatabaseService.getConnection()) {
-            divisionData = FXCollections.observableArrayList(PayrollDAO.getDivisionPay(conn, month, year));
+            divisionData = FXCollections.observableArrayList(PayrollDAO.getDivisionPay(conn, month));
             divisionTable.setItems(divisionData);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,12 +102,12 @@ public class TotalPayController {
         }
     }
 
-    private void loadTitleData(String month, String year) 
+    private void loadTitleData(String month) 
     {
         titleData.clear();
         
         try (Connection conn = DatabaseService.getConnection()) {
-            titleData = FXCollections.observableArrayList(PayrollDAO.getJobTitlePay(conn, month, year));
+            titleData = FXCollections.observableArrayList(PayrollDAO.getJobTitlePay(conn, month));
             titleTable.setItems(titleData);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,16 +118,12 @@ public class TotalPayController {
     @FXML
     private void handleSearch()
     {
-        String month = monthField.getText().trim();
-        String year = yearField.getText().trim();
-
-        if (month.isEmpty() || year.isEmpty())
-        {
-            loadDivisionData("", "");
-            loadTitleData("", "");
-        } else {
-            loadDivisionData(month, year);
-            loadTitleData(month, year);
+        try {
+            int month = getSelectedMonth();
+            loadDivisionData(String.valueOf(month));
+            loadTitleData(String.valueOf(month));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
