@@ -1,5 +1,6 @@
 package com.z.controller;
 
+import com.z.App;
 import com.z.model.Payroll;
 import com.z.model.dao.PayrollDAO;
 import com.z.service.DatabaseService;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -120,12 +122,16 @@ public class SalariesController {
     private void switchToUpdateSalaries()
     {
         try {
-            Parent updateSalariesView = FXMLLoader.load(getClass().getResource("/view/update_salaries.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_salaries.fxml"));
+            Parent root = loader.load();
             Stage updateSalariesStage = new Stage();
             updateSalariesStage.setTitle("Update Salaries");
-            Scene scene = new Scene(updateSalariesView);
+            updateSalariesStage.initModality(Modality.WINDOW_MODAL);
+            updateSalariesStage.initOwner(App.getPrimaryStage());
+            Scene scene = new Scene(root);
             updateSalariesStage.setScene(scene);
-            updateSalariesStage.show();
+            updateSalariesStage.setResizable(false);
+            updateSalariesStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
