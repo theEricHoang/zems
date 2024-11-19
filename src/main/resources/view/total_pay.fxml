@@ -2,9 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -15,12 +15,12 @@
    <top>
       <HBox prefHeight="21.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="26.0" prefWidth="169.0" promptText="Search Month and Year....">
+            <ComboBox fx:id="monthComboBox" prefHeight="26.0" prefWidth="120.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Search" />
+            </ComboBox>
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
          </children>
          <BorderPane.margin>
             <Insets bottom="15.0" top="15.0" />
@@ -83,14 +83,14 @@
          <children>
             <TableView fx:id="divisionTable" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Division" />
-                  <TableColumn prefWidth="75.0" text="Total Pay" />
+                  <TableColumn fx:id="employeeDivision" prefWidth="75.0" text="Division" />
+                  <TableColumn fx:id="employeeDivisionTotalPay" prefWidth="75.0" text="Total Pay" />
                </columns>
             </TableView>
             <TableView fx:id="titleTable" prefHeight="200.0" prefWidth="200.0" visible="false">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Title" />
-                  <TableColumn prefWidth="75.0" text="Total Pay" />
+                  <TableColumn fx:id="employeeTitle" prefWidth="75.0" text="Job Title" />
+                  <TableColumn fx:id="employeeTitleTotalPay" prefWidth="75.0" text="Total Pay" />
                </columns>
             </TableView>
          </children>
