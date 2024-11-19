@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Validation {
 
@@ -69,8 +70,19 @@ public class Validation {
         return race != null && !race.trim().isEmpty();
     }
 
-    public static boolean validateDOB(LocalDate dob) {
-        return dob != null && dob.isBefore(LocalDate.now());
+    public static boolean validateDOB(String dob) {
+        try {
+            LocalDate _dob = formatDOB(dob);
+            return _dob != null && _dob.isBefore(LocalDate.now());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static LocalDate formatDOB(String dob) {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate _dob = LocalDate.parse(dob, dateFormat);
+        return _dob;
     }
 
     public static boolean validatePhone(String phone) {
