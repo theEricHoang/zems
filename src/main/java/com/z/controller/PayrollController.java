@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class SalariesController {
+public class PayrollController {
     @FXML private Button menuButton;
     @FXML private Button employeesButton;
     @FXML private Button updateSalariesButton;

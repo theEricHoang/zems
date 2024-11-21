@@ -15,7 +15,7 @@ public class MainController {
     private Button employeesButton;
 
     @FXML
-    private Button salariesButton;
+    private Button payrollButton;
 
     // Method to switch to the "Employees" view
     @FXML
@@ -29,13 +29,13 @@ public class MainController {
         }
     }
 
-    // Method to switch to the "Salaries" view
+    // Method to switch to the "Payroll" view
     @FXML
-    private void switchToSalaries() {
+    private void switchToPayroll() {
         try {
-            Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
-            Stage stage = (Stage) salariesButton.getScene().getWindow();
-            stage.setScene(new Scene(salariesView));
+            Parent payrollView = FXMLLoader.load(getClass().getResource("/view/payroll.fxml"));
+            Stage stage = (Stage) payrollButton.getScene().getWindow();
+            stage.setScene(new Scene(payrollView));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -46,7 +46,7 @@ public class EmployeesController {
      * separate lines because that's how java annotations work :(
      */
     @FXML private Button menuButton;
-    @FXML private Button salariesButton;
+    @FXML private Button payrollButton;
     @FXML private Button addEmployeeButton;
 
     /*
@@ -223,12 +223,12 @@ public class EmployeesController {
     }
 
     @FXML
-    private void switchToSalaries()
+    private void switchToPayroll()
     {
         try {
-            Parent salariesView = FXMLLoader.load(getClass().getResource("/view/salaries.fxml"));
-            Scene scene = new Scene(salariesView);
-            Stage stage = (Stage) salariesButton.getScene().getWindow();
+            Parent payrollView = FXMLLoader.load(getClass().getResource("/view/payroll.fxml"));
+            Scene scene = new Scene(payrollView);
+            Stage stage = (Stage) payrollButton.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.SalariesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.z.controller.PayrollController">
    <top>
       <HBox prefHeight="21.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,18 +32,18 @@
    <bottom>
       <HBox prefHeight="59.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="updateSalariesButton" mnemonicParsing="false" onAction="#switchToUpdateSalaries" prefWidth="65.0" text="Update">
+            <Button fx:id="updateSalariesButton" mnemonicParsing="false" onAction="#switchToUpdateSalaries" prefHeight="27.0" prefWidth="175.0" text="Update Employee Salaries">
                <HBox.margin>
-                  <Insets left="5.0" top="15.0" />
+                  <Insets left="10.0" top="15.0" />
                </HBox.margin>
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Region prefHeight="49.0" prefWidth="550.0" HBox.hgrow="ALWAYS" />
+            <Region prefHeight="49.0" prefWidth="428.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="totalPayButton" mnemonicParsing="false" onAction="#switchToTotalPay" text="Go to Total Pay by Month">
                <HBox.margin>
-                  <Insets right="5.0" top="15.0" />
+                  <Insets right="10.0" top="15.0" />
                </HBox.margin>
             </Button>
          </children>

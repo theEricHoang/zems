@@ -29,7 +29,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="employeesButton" mnemonicParsing="false" onAction="#switchToEmployees" text="View Employees" />
-            <Button fx:id="salariesButton" mnemonicParsing="false" onAction="#switchToSalaries" text="View Salaries" />
+            <Button fx:id="payrollButton" mnemonicParsing="false" onAction="#switchToPayroll" prefHeight="26.0" prefWidth="107.0" text="View Payrolls" />
          </children>
          <opaqueInsets>
             <Insets />
